@@ -253,6 +253,12 @@ td .url{font:.78rem var(--mono);color:var(--muted);word-break:break-all}
 .chat-row textarea{flex:1;min-width:0;resize:none;font:.93rem/1.4 var(--body);padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);max-height:120px}
 .chat-row .btn{padding:9px 14px}
 .chat-note{font-size:.72rem;color:var(--muted)}
+.handoff{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.handoff .btn{font-size:.82rem;padding:7px 11px;text-decoration:none;display:inline-block}
+.ownkey summary{cursor:pointer;font-size:.78rem;color:var(--accent);font-weight:600}
+.ownkey{display:grid;gap:6px}
+.ownkey[open]{padding-bottom:4px}
+.ownkey input{flex:1;min-width:0;font:.85rem var(--mono);padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
 .typing{color:var(--muted);font-style:italic}
 @media (max-width:860px){.navlinks{display:none}.byline{display:none}.fab span{display:none}.fab{padding:14px}}
 
@@ -523,7 +529,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
 <section class="chat" id="chat" role="dialog" aria-label="AI tutor" hidden>
   <div class="chat-head">
     <span class="av" aria-hidden="true">AI</span>
-    <div><b>AI tutor</b><small id="chatSub">Ask any doubt about your 90-day plan</small></div>
+    <div><b>AI tutor</b><small id="chatSub">Opens in your own Claude account</small></div>
     <button class="chat-x" id="chatClose" type="button" aria-label="Close tutor">×</button>
   </div>
   <div class="msgs" id="msgs" aria-live="polite"></div>
@@ -533,6 +539,12 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
       <button class="btn" id="chatSend" type="submit">Send</button>
       <button class="btn ghost" id="chatStop" type="button" hidden>Stop</button>
     </div>
+    <details class="ownkey">
+      <summary>Use my own API key (optional)</summary>
+      <p class="chat-note">Have your own Anthropic API key? Save it to chat right here. It stays in this browser and is sent only to Anthropic. Without a key, questions open in your own Claude account.</p>
+      <div class="chat-row"><input id="keyIn" type="password" placeholder="sk-ant-…" autocomplete="off" aria-label="Your Anthropic API key"><button class="btn ghost" id="keySave" type="button">Save</button><button class="btn ghost" id="keyRemove" type="button" hidden>Remove</button></div>
+      <span class="chat-note" id="keyState"></span>
+    </details>
     <span class="chat-note">The tutor knows your current week and plan. It can make mistakes, so check code before you run it.</span>
   </form>
 </section>
@@ -850,39 +862,50 @@ rb.onclick=()=>{if(!armed){armed=true;rb.textContent="Click again to clear your 
 
 renderW0();renderLib();renderRes();renderCX();everything();
 
-// ---- AI tutor ----
-// Inside claude.ai it uses the viewer's own Claude (sample capability).
-// On your own site (Vercel) it calls /api/chat, which holds the API key on the server.
+// ---- AI tutor: always the student's OWN account, never the site owner's key ----
+// 1) Inside the Claude app / claude.ai artifact: chats here using the student's Claude (sample capability).
+// 2) On any normal website: builds the question with the student's context and opens it in the
+//    student's own Claude (or ChatGPT) in a new tab, where they are signed in.
+// 3) Optional: a student may paste their OWN Anthropic API key to chat right here. It stays in their browser.
 const tutor=(()=>{
   const chat=$("chat"),msgs=$("msgs"),inp=$("chatIn"),send=$("chatSend"),stop=$("chatStop");
-  let turns=[],busy=false,ctl=null,sampleFn=null,mode="unknown";
-  if(window.claude&&claude.use){claude.use("sample").then(f=>{if(f){sampleFn=f;mode="claude"}}).catch(()=>{})}
+  let turns=[],busy=false,ctl=null,sampleFn=null;
+  const inClaude=!!(window.claude&&claude.use);
+  const samplePromise=inClaude?claude.use("sample").then(f=>{sampleFn=f||null;return sampleFn}).catch(()=>null):Promise.resolve(null);
+  const KKEY="ae90-own-key";
+  const getKey=()=>{try{return localStorage.getItem(KKEY)||""}catch(e){return ""}};
+  const setKey=v=>{try{v?localStorage.setItem(KKEY,v):localStorage.removeItem(KKEY)}catch(e){}};
 
   function context(){
     const n=dayNum(),w=curWeek(),W_=W[w];
-    const lines=[
+    return [
       `Student name: ${S.name||"not given"}`,
-      `Start date: ${locked()?fmtLong(start()):"not locked yet (previewing from today)"}`,
-      `Today: ${fmtLong(today)} = Day ${Math.max(0,Math.min(n,92))} of 92${n<1?" (has not started yet)":n>92?" (plan finished)":""}`,
+      `Start date: ${locked()?fmtLong(start()):"not locked yet"}`,
+      `Today: Day ${Math.max(0,Math.min(n,92))} of 92`,
       `Current week: Week ${w+1} – ${W_.title}. Learn: ${W_.learn} Ship: ${W_.ship} – ${W_.shipDesc}`,
       `Videos this week: ${W_.v.map(v=>v[0]).join("; ")}`,
-      `Progress: ${W.map((x,i)=>`W${i+1} ${S["ship"+i]?"shipped":"not shipped"}`).join(", ")}; days crossed off in tracker: ${Array.from({length:92},(_,i)=>S["t"+i]?1:0).reduce((a,b)=>a+b,0)}`,
-      `Full plan: ${W.map((x,i)=>`W${i+1} ${x.title} (ship: ${x.ship})`).join(" | ")}`,
-      `Extra roadmaps on the site: roadmap.sh/ai-engineer and aiengineeringfromscratch.com`,
-      `Hindi videos this week (CampusX): ${(CX[w]||[]).map(v=>v[0]).join("; ")||"none"}`
-    ];
-    return lines.join("\n");
+      `Hindi videos this week (CampusX): ${(CX[w]||[]).map(v=>v[0]).join("; ")||"none"}`,
+      `Projects shipped: ${W.map((x,i)=>S["ship"+i]?"W"+(i+1):null).filter(Boolean).join(", ")||"none yet"}`,
+      `Full plan: ${W.map((x,i)=>`W${i+1} ${x.title}`).join(" | ")}`
+    ].join("\n");
   }
-  const RULES=()=>`You are the AI tutor on a 90-day "become an AI engineer" learning website (12 weeks, 12 projects, about 2 hours a day: 1 hour learn, 1 hour build, 1 post per week).
+  const RULES=()=>`You are the AI tutor on a 90-day "become an AI engineer" learning website by Mahendra Singh (12 weeks, 12 projects, about 2 hours a day: 1 hour learn, 1 hour build, 1 post per week).
 How to answer:
 - Reply in the same language the student uses (English, Hindi or Hinglish).
-- Be a patient teacher: short, clear answers first, then offer to go deeper. Use small code examples in Python when they help, inside triple-backtick blocks.
-- For project work, guide with hints, structure and debugging steps rather than writing the whole project for them, unless they ask for full code.
-- Tie answers to the student's current week and project when relevant, and point to the week's videos or the extra roadmaps when useful.
-- If they are behind schedule, be encouraging and suggest a realistic catch-up for the next few days.
+- Be a patient teacher: short, clear answers first, then offer to go deeper. Use small Python examples in triple-backtick blocks when they help.
+- For project work, guide with hints, structure and debugging steps rather than writing the whole project, unless they ask for full code.
+- Tie answers to the student's current week and project, and point to the week's videos when useful.
+- If they are behind schedule, be encouraging and suggest a realistic catch-up plan.
 - Stay on learning, AI engineering, coding and career topics; politely steer other topics back.
 Student context:
 ${context()}`;
+  // Short version for a link (URLs have length limits)
+  function linkPrompt(q){
+    const w=curWeek(),n=dayNum();
+    let ctx=`I'm following a 90-day AI Engineer roadmap (12 weeks, 12 projects). I'm on Day ${Math.max(1,Math.min(n,92))}, Week ${w+1}: ${W[w].title}. This week I learn: ${W[w].learn} My project: ${W[w].ship} – ${W[w].shipDesc}\nAct as my patient tutor. Reply in the language I write in (English or Hinglish), keep it simple, give hints for project work rather than the full solution unless I ask.\n\nMy question: `;
+    const room=1900-ctx.length;
+    return ctx+(q.length>room?q.slice(0,room)+"…":q);
+  }
 
   function md(t){
     const parts=String(t).split(/```(?:[\w+-]*)\n?/);
@@ -897,50 +920,72 @@ ${context()}`;
     }).join("");
   }
   function bubble(cls,html){const d=document.createElement("div");d.className="msg "+cls;d.innerHTML=html;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d}
+  const canChatHere=()=>!!sampleFn||!!getKey();
+  function modeLine(){
+    $("chatSub").textContent=sampleFn?"Using your Claude account":getKey()?"Using your own API key":"Opens in your own Claude account";
+    $("keyState").textContent=getKey()?"A key is saved in this browser.":"No key saved.";
+    $("keyRemove").hidden=!getKey();
+  }
   function greet(){
+    modeLine();
     if(msgs.childElementCount)return;
     const w=curWeek();
-    const b=bubble("bot",md(`Hi${S.name?" "+S.name:""}! I'm your AI tutor. ${locked()?`You're on **Week ${w+1}: ${W[w].title}**.`:"Lock your start date at the top so I know which week you're on."} Ask me any doubt: a concept, an error, or how to plan today's 2 hours.`));
+    const how=canChatHere()?"Ask me any doubt right here.":"Type your doubt and I'll open it in **your own Claude** (sign in there with your account), already filled in with your week and project. No API key needed.";
+    const b=bubble("bot",md(`Hi${S.name?" "+S.name:""}! I'm your AI tutor. ${locked()?`You're on **Week ${w+1}: ${W[w].title}**.`:"Lock your start date at the top so I know which week you're on."} ${how}`));
     const c=document.createElement("div");c.className="chips";
     [`Explain Week ${w+1} in simple words`,"Help me plan today's 2 hours","Give me a hint for this week's project","Mujhe ek error aa raha hai"].forEach(q=>{const x=document.createElement("button");x.type="button";x.textContent=q;x.onclick=()=>{c.remove();ask(q)};c.appendChild(x)});
     b.appendChild(c);
   }
   function setBusy(v){busy=v;send.hidden=v;stop.hidden=!v;inp.disabled=v}
 
-  async function viaServer(onText,signal){
-    const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},signal,
-      body:JSON.stringify({system:RULES(),messages:turns.slice(-16)})});
-    if(r.status===404)throw{code:"no_server"};
-    const j=await r.json().catch(()=>({}));
-    if(!r.ok)throw{code:j.code||"server",message:j.error||""};
-    onText(j.text||"");return j.text||"";
+  function handoff(q){
+    const p=linkPrompt(q),enc=encodeURIComponent(p);
+    const b=bubble("bot",md("Your question is ready with your week and project added. Open it in your own account:"));
+    const row=document.createElement("div");row.className="handoff";
+    row.innerHTML=`<a class="btn" href="https://claude.ai/new?q=${enc}" target="_blank" rel="noopener">Ask in Claude ↗</a><a class="btn ghost" href="https://chatgpt.com/?q=${enc}" target="_blank" rel="noopener">Ask in ChatGPT ↗</a><button class="btn ghost" type="button">Copy question</button>`;
+    row.querySelector("button").onclick=e=>{const t=e.currentTarget;try{navigator.clipboard.writeText(p).then(()=>{t.textContent="Copied"},()=>{t.textContent="Copy failed"})}catch(err){t.textContent="Copy failed"}};
+    b.appendChild(row);
+    const n=document.createElement("p");n.className="chat-note";n.textContent="Not signed in? Claude will ask you to log in first, then your question appears. Free accounts work too.";b.appendChild(n);
+    msgs.scrollTop=msgs.scrollHeight;
   }
   async function viaClaude(onText,signal){
     const {text}=await sampleFn([{role:"user",content:RULES()},{role:"assistant",content:"Understood. I'm ready to help this student."},...turns.slice(-16)],{cache:false,signal,modelTier:"quick",onText:({text})=>onText(text)});
     return text;
   }
+  async function viaOwnKey(onText,signal){
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",signal,headers:{
+      "content-type":"application/json","x-api-key":getKey(),"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1200,system:RULES(),messages:turns.slice(-16)})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok)throw{code:r.status===401?"bad_key":r.status===429?"rate_limited":r.status===400&&/credit/i.test(JSON.stringify(j))?"no_credit":"server"};
+    const t=(j.content||[]).filter(c=>c.type==="text").map(c=>c.text).join("\n");onText(t);return t;
+  }
   const errCopy=e=>({
-    no_server:"The tutor isn't connected on this copy of the site yet. Your teacher needs to deploy it on Vercel with an API key (see README).",
-    not_granted:"The tutor needs your permission to use Claude. Send your question again and choose Allow.",
+    not_granted:"The tutor needs your permission to use your Claude. Send again and choose Allow.",
     rate_limited:"Too many questions at once. Wait a minute and try again.",
-    rate_limit:"Too many questions at once. Wait a minute and try again.",
+    bad_key:"That API key was rejected. Check it under 'Use my own API key', or remove it to use Claude in a new tab instead.",
+    no_credit:"Your API account has no credit left. Add credit in the Anthropic console, or remove the key to use Claude in a new tab.",
+    network:"Couldn't reach the AI service. Check your internet and try again.",
     cancelled:""
-  }[e&&e.code]??"Something went wrong reaching the tutor. Check your internet and try again.");
+  }[e&&e.code]??"Something went wrong. Try again, or remove your key to ask in Claude instead.");
 
   async function ask(q){
     q=q.trim();if(!q||busy)return;
-    turns.push({role:"user",content:q.slice(0,4000)});
     bubble("me",esc(q).replace(/\n/g,"<br>"));
+    if(inClaude&&!sampleFn){setBusy(true);await samplePromise;setBusy(false);modeLine()}
+    if(!canChatHere()){handoff(q);return}
+    turns.push({role:"user",content:q.slice(0,4000)});
     const b=bubble("bot",'<span class="typing">Thinking…</span>');
     setBusy(true);ctl=new AbortController();
     const onText=t=>{b.innerHTML=md(t);msgs.scrollTop=msgs.scrollHeight};
     try{
-      const text=sampleFn?await viaClaude(onText,ctl.signal):await viaServer(onText,ctl.signal);
+      const text=sampleFn?await viaClaude(onText,ctl.signal):await viaOwnKey(onText,ctl.signal);
       turns.push({role:"assistant",content:text});
     }catch(e){
       turns.pop();
       if(e&&e.name==="AbortError")e={code:"cancelled"};
-      const keep=e&&e.text;const m=errCopy(e);
+      else if(e instanceof TypeError)e={code:"network"};
+      const keep=e&&e.text,m=errCopy(e);
       if(keep)b.innerHTML=md(keep);else if(m){b.className="msg bot err";b.textContent=m}else b.remove();
     }finally{setBusy(false);inp.focus()}
   }
@@ -948,13 +993,17 @@ ${context()}`;
   inp.addEventListener("keydown",ev=>{if(ev.key==="Enter"&&!ev.shiftKey){ev.preventDefault();$("chatForm").requestSubmit()}});
   inp.addEventListener("input",()=>{inp.style.height="auto";inp.style.height=Math.min(inp.scrollHeight,120)+"px"});
   stop.onclick=()=>ctl&&ctl.abort();
+  $("keySave").onclick=()=>{const v=$("keyIn").value.trim();if(!/^sk-ant-/.test(v)){$("keyState").textContent="That doesn't look like an Anthropic key (it starts with sk-ant-).";return}setKey(v);$("keyIn").value="";modeLine();$("keyState").textContent="Key saved in this browser. You can now chat here."};
+  $("keyRemove").onclick=()=>{setKey("");modeLine()};
   function open(){chat.hidden=false;$("fab").hidden=true;greet();inp.focus()}
   function close(){chat.hidden=true;$("fab").hidden=false;$("fab").focus()}
   document.querySelectorAll("[data-open-chat]").forEach(b=>b.addEventListener("click",open));
   $("chatClose").onclick=close;
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!chat.hidden)close()});
+  samplePromise.then(()=>{if(!chat.hidden)modeLine()});
   return{open};
 })();
+
 </script>
 
 </body>
