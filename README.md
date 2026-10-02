@@ -17,4 +17,4 @@ Upload this folder to Vercel, Netlify or GitHub Pages (or just open `index.html`
 
 The site owner never needs or stores any API key.
 
-Roadmap content based on "90 Days to Become an AI Engineer: The Oct → Dec Roadmap" by Sakshi Jaiswal (AI in Plain English).
+Medium: https://medium.com/@mahendraa1188
