@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="12-week AI Engineer roadmap with your own locked start date, 24 videos, project tracker and 92-day chain tracker.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ship Every Friday</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sprint-board. Hero + today card, three acts, 1·1·1 rule, 12-cell quarter strip with one open week panel, all-videos library, 92-day chain tracker, stack + learn/skip, free resources. */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --sunken:#e8ecf0; --line:#d3dae1;
+  --fg:#16212b; --muted:#566573; --accent:#0f6b6e; --accent-soft:#d6ecec;
+  --oct:#c76a12; --oct-soft:#fbe9d6; --nov:#6b4fb3; --nov-soft:#ebe5f7; --dec:#0d7f95; --dec-soft:#d9f0f4; --done:#2f7d46; --yt:#c4302b;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f161c; --surface:#16202a; --sunken:#1d2934; --line:#2b3a47; --fg:#e3eaf0; --muted:#93a4b3; --accent:#4fbcbc; --accent-soft:#163536;
+  --oct:#f0a14e; --oct-soft:#3a2810; --nov:#a993e8; --nov-soft:#2a2242; --dec:#4cc3d8; --dec-soft:#123540; --done:#6cc488; --yt:#ff6b61; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f161c; --surface:#16202a; --sunken:#1d2934; --line:#2b3a47; --fg:#e3eaf0; --muted:#93a4b3; --accent:#4fbcbc; --accent-soft:#163536;
+  --oct:#f0a14e; --oct-soft:#3a2810; --nov:#a993e8; --nov-soft:#2a2242; --dec:#4cc3d8; --dec-soft:#123540; --done:#6cc488; --yt:#ff6b61; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);padding-inline:16px}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 64px;display:grid;gap:64px}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.12;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:700}
+h3{font-size:1.2rem;font-weight:700}
+h4{font-size:1.05rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+code{font:.85em var(--mono);background:var(--sunken);padding:1px 6px;border-radius:4px}
+.eyebrow{font:600 .75rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--mono)}
+.lede{font-size:1.1rem;color:var(--muted);max-width:62ch}
+section{display:grid;gap:22px}
+.sec-head{display:grid;gap:8px}
+.oct{--c:var(--oct);--cs:var(--oct-soft)} .nov{--c:var(--nov);--cs:var(--nov-soft)} .dec{--c:var(--dec);--cs:var(--dec-soft)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.hero-text{display:grid;gap:18px;min-width:0}
+.hl{color:var(--oct)}
+.stats{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:.88rem;color:var(--muted)}
+.stats b{font:800 1.5rem var(--display);display:block;color:var(--fg)}
+.today{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:12px}
+.today .big{font:800 2.6rem/1 var(--display)}
+.bar{height:8px;background:var(--sunken);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:99px;transition:width .4s}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:.88rem;color:var(--muted)}
+.btn{font:600 .9rem var(--body);border:1px solid var(--accent);background:var(--accent);color:var(--bg);padding:9px 14px;border-radius:8px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible,.cell:focus-visible,.day:focus-visible,label:focus-within,a:focus-visible{outline:2px solid var(--oct);outline-offset:2px}
+
+/* acts */
+.acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.act{border-top:4px solid var(--c);background:var(--surface);border-radius:0 0 var(--r) var(--r);padding:18px;display:grid;gap:8px;align-content:start}
+.act .mono{color:var(--c);font-size:.78rem;letter-spacing:.1em}
+.act em{font-style:normal;color:var(--c);font-weight:600}
+.act ul{margin:0;padding-left:1.1em;font-size:.93rem;display:grid;gap:3px}
+
+/* 1-1-1 */
+.ones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.one{display:grid;gap:6px}
+.one b{font:800 2.4rem/1 var(--display);color:var(--c)}
+
+/* week 0 */
+.w0{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:10px;align-content:start;min-width:0}
+ul.clean{margin:0;padding-left:1.1em;display:grid;gap:6px}
+
+/* quarter strip */
+.quarter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.month{display:grid;gap:8px}
+.month-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:2px solid var(--c);padding-bottom:6px}
+.month-head span{font-size:.82rem;color:var(--c);font-weight:600}
+.cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.cell{all:unset;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 8px;display:grid;gap:4px;min-width:0;position:relative}
+.cell .n{font:800 1.3rem/1 var(--display)}
+.cell .d{font:400 .68rem/1.2 var(--mono);color:var(--muted)}
+.cell .p{height:3px;background:var(--sunken);border-radius:2px;overflow:hidden}
+.cell .p i{display:block;height:100%;background:var(--done)}
+.cell[aria-selected="true"]{border-color:var(--c);background:var(--cs)}
+.cell.now::after{content:"NOW";position:absolute;top:6px;right:6px;font:600 .58rem var(--mono);color:var(--c)}
+.cell.shipped .n{color:var(--done)}
+
+/* week panel */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.panel-top{padding:24px;display:grid;gap:10px;border-bottom:1px solid var(--line);border-top:4px solid var(--c)}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 .78rem var(--mono);padding:3px 9px;border-radius:99px;background:var(--sunken);color:var(--muted)}
+.chip.c{background:var(--cs);color:var(--c)}
+.panel-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.col{padding:24px;display:grid;gap:14px;align-content:start;min-width:0}
+.col+.col{border-left:1px solid var(--line)}
+.project{background:var(--cs);border-radius:8px;padding:16px;display:grid;gap:8px}
+.project .eyebrow{color:var(--c)}
+.why{border-left:3px solid var(--c);padding:2px 0 2px 12px;font-size:.95rem;color:var(--muted)}
+.checkpoint{margin:0 24px 24px;background:var(--sunken);border-radius:8px;padding:14px 16px;font-size:.95rem;display:grid;gap:4px}
+.panel-nav{display:flex;justify-content:space-between;gap:8px;padding:14px 24px;border-top:1px solid var(--line);background:var(--sunken)}
+
+/* videos */
+.vids{display:grid;gap:8px}
+.vid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.vid input{margin-top:6px;accent-color:var(--done)}
+.vid a{font-weight:600;text-decoration:none;color:var(--fg);display:inline-flex;gap:6px;align-items:baseline}
+.vid a:hover{color:var(--accent);text-decoration:underline}
+.vid a::before{content:"▶";font-size:.7em;color:var(--yt)}
+.vid .note{font-size:.88rem;color:var(--muted)}
+.vid.watched a{color:var(--muted)}
+.check{display:flex;gap:10px;align-items:center;font-weight:600;cursor:pointer}
+.check input{accent-color:var(--done);width:18px;height:18px}
+
+/* library */
+.lib-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lib-tools button{font:500 .85rem var(--body);border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:6px 12px;border-radius:99px;cursor:pointer}
+.lib-tools button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.lib{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.93rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font:600 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--sunken)}
+td.wk{font-family:var(--mono);white-space:nowrap;color:var(--c);font-weight:600}
+td .url{font:.78rem var(--mono);color:var(--muted);word-break:break-all}
+.copy{font:500 .78rem var(--mono);border:1px solid var(--line);background:transparent;color:var(--muted);padding:3px 8px;border-radius:6px;cursor:pointer;white-space:nowrap}
+
+/* tracker */
+.tracker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.tm{display:grid;gap:8px}
+.tm h3{color:var(--c)}
+.dow,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.dow span{font:600 .65rem var(--mono);color:var(--muted);text-align:center}
+.day{all:unset;cursor:pointer;aspect-ratio:1;max-width:100%;border:1.5px solid var(--c);border-radius:6px;font:500 .72rem var(--mono);display:grid;place-items:center;color:var(--c);position:relative}
+.day.x{background:var(--c);color:var(--bg)}
+.day.today{box-shadow:0 0 0 2px var(--fg)}
+.day.future{opacity:.55}
+.streak{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:.88rem;color:var(--muted)}
+.streak b{font:800 1.4rem var(--display);color:var(--fg);display:block}
+
+/* stack + skip */
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.stack{display:grid;gap:6px}
+.layer{display:grid;grid-template-columns:2.2em minmax(0,1fr);gap:10px;align-items:baseline;padding:8px 12px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.layer .mono{color:var(--muted);font-size:.8rem}
+.layer small{display:block;color:var(--muted);font:.78rem var(--mono)}
+.layer.edge{border-color:var(--dec);background:var(--dec-soft)}
+.skip li{color:var(--muted)} .skip b{color:var(--fg);text-decoration:line-through;text-decoration-color:var(--oct)}
+.learn li::marker{content:"✓  ";color:var(--done)}
+
+/* resources */
+.res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.res .box a{word-break:break-word}
+.paid{font:600 .68rem var(--mono);color:var(--oct);border:1px solid var(--oct);border-radius:4px;padding:0 4px;margin-left:4px}
+
+.haves{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.have{display:grid;gap:4px} .have b{font:800 2.2rem/1 var(--display);color:var(--c)} .have span{font-size:.88rem;color:var(--muted)}
+
+/* start-date setup */
+.setup{display:grid;gap:10px}
+.setup label{display:grid;gap:4px;font-size:.85rem;color:var(--muted)}
+.setup input{font:500 1rem var(--body);padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);width:100%}
+.confirm{background:var(--oct-soft);border-radius:8px;padding:12px;display:grid;gap:8px;font-size:.9rem}
+.confirm .btns{display:flex;gap:8px;flex-wrap:wrap}
+.lockline{display:flex;align-items:center;gap:8px;font:600 .78rem var(--mono);color:var(--done)}
+.lockline svg{width:14px;height:14px;flex:none}
+.preview-note{font-size:.88rem;color:var(--oct);font-weight:600}
+.err{font-size:.85rem;color:var(--yt)}
+.sync{display:grid;gap:8px}
+.sync textarea{width:100%;min-height:70px;font:.75rem var(--mono);padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+.sync .btns{display:flex;gap:8px;flex-wrap:wrap}
+
+/* week-row tracker */
+.wrows{display:grid;gap:8px}
+.wrow{display:grid;grid-template-columns:3.2em minmax(0,1fr);gap:10px;align-items:center}
+.wrow .lbl{font:700 .8rem var(--mono);color:var(--c)}
+.wrow .cellsrow{display:flex;flex-wrap:wrap;gap:4px}
+.wrow .day{width:34px;height:34px;aspect-ratio:auto;flex:none}
+.day small{position:absolute;bottom:1px;font-size:.5rem;opacity:.8}
+
+/* roadmaps */
+.maps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.map{display:grid;gap:10px;align-content:start}
+.map .tag{font:600 .72rem var(--mono);color:var(--muted)}
+.maptable{overflow-x:auto}
+.maptable table{min-width:600px}
+
+footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:20px;display:grid;gap:10px}
+.toast{font:.8rem var(--mono);color:var(--done)}
+
+@media (max-width:860px){
+  .hero,.w0,.panel-body,.two,.tracker,.res{grid-template-columns:1fr}
+  .col+.col{border-left:0;border-top:1px solid var(--line)}
+  .acts,.ones,.quarter,.maps{grid-template-columns:1fr}
+  .haves{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tracker{max-width:420px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-text">
+      <p class="eyebrow" id="heroEyebrow">#90DayAIEngineer · your own 92-day calendar</p>
+      <h1>90 days to become an <span class="hl">AI engineer.</span></h1>
+      <p class="lede">Pick your start day, ship something every week, and finish 92 days later with a portfolio instead of a resolution. Twelve projects, about two hours a day, every video and resource in one place. Your calendar, ship dates and tracker all count from the day you choose.</p>
+      <div class="stats">
+        <div><b>92</b>days</div>
+        <div><b>12</b>projects</div>
+        <div><b>24</b>videos</div>
+        <div><b>200+</b>hours</div>
+      </div>
+    </div>
+    <aside class="today" aria-live="polite">
+      <div id="setupBox" class="setup" hidden>
+        <p class="eyebrow">Step 1 · Set your start date</p>
+        <h3>When does your Day 1 begin?</h3>
+        <label for="nameIn">Your name (shown on your plan)
+          <input id="nameIn" type="text" maxlength="40" placeholder="e.g. Priya" autocomplete="given-name"></label>
+        <label for="dateIn">Start date
+          <input id="dateIn" type="date"></label>
+        <p class="err" id="setupErr" hidden></p>
+        <button class="btn" id="lockBtn" type="button">Lock my start date</button>
+        <div class="confirm" id="confirmBox" hidden>
+          <span id="confirmText"></span>
+          <span>Once locked, the date can't be changed. All 12 weeks and ship dates will be set from it.</span>
+          <div class="btns"><button class="btn" id="confirmYes" type="button">Yes, lock it</button><button class="btn ghost" id="confirmNo" type="button">Go back</button></div>
+        </div>
+        <p class="preview-note">Until you lock a date, the plan below is a preview starting today.</p>
+      </div>
+      <div id="statusBox" style="display:grid;gap:12px">
+        <p class="eyebrow" id="planOwner">Where you are today</p>
+        <div class="big" id="todayBig">Week 1</div>
+        <p id="todaySub" style="color:var(--muted);font-size:.92rem"></p>
+        <div class="bar" aria-hidden="true"><i id="dayBar" style="width:0;background:var(--accent)"></i></div>
+        <div class="row"><span>Calendar</span><span id="dayPct" class="mono"></span></div>
+        <div class="bar" aria-hidden="true"><i id="doneBar" style="width:0;background:var(--done)"></i></div>
+        <div class="row"><span>Videos watched + projects shipped</span><span id="donePct" class="mono"></span></div>
+        <p class="lockline" id="lockLine" hidden><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 7V5a4 4 0 1 1 8 0v2h1v8H3V7h1zm2 0h4V5a2 2 0 1 0-4 0v2z"/></svg><span id="lockText"></span></p>
+        <button class="btn" id="jumpNow" type="button">Open this week</button>
+      </div>
+    </aside>
+  </header>
+
+  <section>
+    <div class="sec-head"><p class="eyebrow">Before you start</p><h2>Can this really be done in 90 days?</h2>
+      <p class="lede">Yes, if you already write basic code in any language: loops, functions, a little Git. New to coding? Keep the plan but slow it down: take Week 0 seriously, add a month of Python, then follow the same order.</p>
+      <p class="lede">"AI engineer" here means someone who builds dependable products on top of existing models: chatbots that stay grounded, agents that finish the job, search that understands meaning. It is not ML research, and you won't be designing new architectures.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><p class="eyebrow">The structure</p><h2>Three months, three acts</h2><p class="lede">Each month of your plan ends with a checkpoint and each week ends with a project. Twelve weeks, twelve ships.</p></div>
+    <div class="acts">
+      <div class="act oct"><span class="mono" id="act0">ACT I · MONTH 1</span><h3>Speak the language</h3><p>How LLMs behave and how to talk to them from code.</p><ul><li>LLM APIs in Python</li><li>How models really work</li><li>Prompts &amp; JSON output</li><li>Embeddings &amp; search</li></ul><em>Ships 4 projects</em></div>
+      <div class="act nov"><span class="mono" id="act1">ACT II · MONTH 2</span><h3>Build things that think</h3><p>Retrieval, tools, agents and, above all, evals.</p><ul><li>RAG from scratch</li><li>Tool use &amp; agents</li><li>Evals (the pro skill)</li><li>Open models &amp; LoRA</li></ul><em>Ships 4 projects</em></div>
+      <div class="act dec"><span class="mono" id="act2">ACT III · MONTH 3</span><h3>Ship like a pro</h3><p>Deploy, monitor, build a capstone and launch it in public.</p><ul><li>Deploy, stream, cache</li><li>Tracing &amp; guardrails</li><li>Capstone product</li><li>Launch &amp; get seen</li></ul><em>Ships 4 projects</em></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><p class="eyebrow">The only daily rule</p><h2>The 1 · 1 · 1 method</h2></div>
+    <div class="ones">
+      <div class="one oct"><b>1 hr</b><h4>Learn</h4><p>One video, one doc page or one chapter. Not five tabs. Take notes by hand.</p></div>
+      <div class="one nov"><b>1 hr</b><h4>Build</h4><p>A tutorial only counts once you've committed code after it.</p></div>
+      <div class="one dec"><b>1 post</b><h4>Share</h4><p>Every Friday, post what you shipped: a screenshot, a lesson, a failure. Recruiters look for builders, not certificates.</p></div>
+    </div>
+    <p class="lede">Roughly 2 hours on weekdays and 4 on weekends. Consistency beats intensity.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><p class="eyebrow" id="w0eyebrow">Week 0 · the 7 days before Day 1 · Setup</p><h2>It starts before Day 1</h2></div>
+    <div class="w0">
+      <div class="box">
+        <h3>Setup checklist</h3>
+        <div class="vids" id="w0checks"></div>
+      </div>
+      <div class="box">
+        <h3>Join the challenge</h3>
+        <ul class="clean">
+          <li>Comment "IN" on the original post so other learners can find you.</li>
+          <li>Post every Friday with <b>#90DayAIEngineer</b>: what you shipped, what broke, what you learned.</li>
+          <li>Tag one friend to do it with you. A partner makes it far more likely you finish.</li>
+          <li>Missed a day? Fine. Don't miss two.</li>
+        </ul>
+        <p style="font-size:.9rem;color:var(--muted)">Author: Sakshi Jaiswal · <a href="https://instagram.com/sakshi.learns.ai" target="_blank" rel="noopener">Instagram @sakshi.learns.ai</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="plan">
+    <div class="sec-head"><p class="eyebrow">The full roadmap</p><h2>12 weeks. 12 ships.</h2>
+    <p class="lede">Pick a week to see what to learn, what to ship and the videos to watch. Ticks save in this browser. Rule: no week ends without a public GitHub repo.</p></div>
+    <div class="quarter" id="quarter" role="tablist" aria-label="Weeks"></div>
+    <article class="panel" id="panel" role="tabpanel"></article>
+  </section>
+
+  <section id="videos">
+    <div class="sec-head"><p class="eyebrow">Video library</p><h2>All 24 videos from the roadmap</h2>
+    <p class="lede">Every YouTube link from the article in one table. Filter by month of your plan or copy a link to share with your batch.</p></div>
+    <div class="lib-tools" role="group" aria-label="Filter videos">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="0" aria-pressed="false">Month 1</button>
+      <button type="button" data-f="1" aria-pressed="false">Month 2</button>
+      <button type="button" data-f="2" aria-pressed="false">Month 3</button>
+      <button type="button" id="copyAll" class="copy" style="margin-left:auto">Copy all links</button>
+      <span id="copyMsg" class="toast"></span>
+    </div>
+    <div class="lib"><table><thead><tr><th>Week</th><th>Video</th><th>Why watch</th><th></th></tr></thead><tbody id="libBody"></tbody></table></div>
+    <textarea id="copyFallback" aria-label="All links" hidden readonly style="width:100%;min-height:160px;font:.8rem var(--mono)"></textarea>
+  </section>
+
+  <section>
+    <div class="sec-head"><p class="eyebrow">Don't break the chain</p><h2>The 92-day tracker</h2>
+    <p class="lede">Each day you finish your hour of learning and your hour of building, tap the box. One row per week of your plan; days after today stay locked until they arrive.</p></div>
+    <div class="streak">
+      <div><b id="sDone">0</b>days crossed off</div>
+      <div><b id="sStreak">0</b>current streak</div>
+      <div><b id="sBest">0</b>best streak</div>
+    </div>
+    <div class="wrows" id="tracker"></div>
+  </section>
+
+  <section id="roadmaps">
+    <div class="sec-head"><p class="eyebrow">Go deeper</p><h2>Two roadmaps to keep open</h2>
+    <p class="lede">The 12-week plan tells you what to ship each week. These two show the bigger map: one for what the job covers, one for how things work underneath.</p></div>
+    <div class="maps">
+      <div class="box map">
+        <span class="tag">roadmap.sh · interactive skill map</span>
+        <h3>AI Engineer Roadmap</h3>
+        <p>A clickable visual map of everything an AI engineer is expected to know, from using pre-trained models and prompting to RAG, agents, embeddings and safety. Each node links to free reading. Use it to check you haven't skipped a topic and to see what comes after these 92 days.</p>
+        <p><a class="btn ghost" style="display:inline-block;text-decoration:none" href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">Open roadmap.sh/ai-engineer ↗</a></p>
+      </div>
+      <div class="box map">
+        <span class="tag">aiengineeringfromscratch.com · free, open source</span>
+        <h3>AI Engineering from Scratch</h3>
+        <p>A long-form curriculum maintained by Rohit Ghumare and contributors. You hand-write the tokenizer, attention, backprop and the agent loop before using any framework, then move on to LLM engineering, evals, serving, observability and agents. Runnable code in Python, TypeScript, Rust and Julia.</p>
+        <p><a class="btn ghost" style="display:inline-block;text-decoration:none" href="https://aiengineeringfromscratch.com/index.html" target="_blank" rel="noopener">Open AI Engineering from Scratch ↗</a></p>
+      </div>
+    </div>
+    <div class="lib maptable">
+      <table>
+        <thead><tr><th>Your weeks</th><th>What you ship</th><th>On roadmap.sh, look at</th><th>In From Scratch, go to</th></tr></thead>
+        <tbody>
+          <tr class="oct"><td class="wk">W1–W2</td><td>Chatbot, token visualizer</td><td>Pre-trained models, how LLMs work, OpenAI/Claude APIs</td><td>Setup &amp; tooling, software fundamentals, model architecture (optional depth)</td></tr>
+          <tr class="oct"><td class="wk">W3–W4</td><td>Resume extractor, notes search</td><td>Prompt engineering, embeddings, vector databases</td><td>LLM engineering: prompts, structured output, embeddings</td></tr>
+          <tr class="nov"><td class="wk">W5–W6</td><td>Chat-with-PDF, research agent</td><td>RAG, AI agents, tool use / function calling</td><td>Retrieval, agent engineering, tools &amp; protocols (MCP)</td></tr>
+          <tr class="nov"><td class="wk">W7–W8</td><td>Eval harness, LoRA tune</td><td>Open-source models, fine-tuning, evaluation</td><td>Evaluation &amp; testing, training basics</td></tr>
+          <tr class="dec"><td class="wk">W9–W10</td><td>Deployed app, guardrails post</td><td>AI safety &amp; ethics, prompt injection, deployment</td><td>Serving &amp; deployment, observability &amp; monitoring</td></tr>
+          <tr class="dec"><td class="wk">W11–W12</td><td>Capstone, launch</td><td>Projects section for more build ideas</td><td>Pick one deep-dive phase for January</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="two">
+      <div class="box">
+        <p class="eyebrow">Build from the bottom up</p>
+        <h2>The AI engineer stack</h2>
+        <div class="stack">
+          <div class="layer edge"><span class="mono">07</span><div><b>Production &amp; observability</b><small>deploy · trace · guard</small></div></div>
+          <div class="layer edge"><span class="mono">06</span><div><b>Evals</b><small>golden sets · LLM-as-judge · regressions</small></div></div>
+          <div class="layer"><span class="mono">05</span><div><b>Agents &amp; tool use</b><small>function calling · loops · MCP</small></div></div>
+          <div class="layer"><span class="mono">04</span><div><b>Retrieval (RAG)</b><small>chunk · embed · retrieve · rerank</small></div></div>
+          <div class="layer"><span class="mono">03</span><div><b>Prompting &amp; structured output</b><small>system prompts · few-shot · JSON schema</small></div></div>
+          <div class="layer"><span class="mono">02</span><div><b>LLM fundamentals</b><small>tokens · context · sampling · embeddings</small></div></div>
+          <div class="layer"><span class="mono">01</span><div><b>Python + APIs</b><small>async · pydantic · http · git</small></div></div>
+        </div>
+        <p style="font-size:.93rem">Most self-taught builders skip layer 06. Demos that work on three examples break on the fourth. A test set, a score and a chart of improvements make you look senior.</p>
+      </div>
+      <div class="box">
+        <p class="eyebrow">Stay on the road</p>
+        <h2>What to learn, what to skip</h2>
+        <h4 style="color:var(--done)">Learn now</h4>
+        <ul class="clean learn"><li>Calling LLM APIs well</li><li>Embeddings &amp; retrieval</li><li>Tool use &amp; agent loops</li><li>Writing evals</li><li>Deploying &amp; monitoring</li><li>Reading model docs fast</li></ul>
+        <h4 style="color:var(--oct)">Skip for now</h4>
+        <ul class="clean skip">
+          <li><b>Deep backprop math</b>: useful later, not needed to ship products now.</li>
+          <li><b>Training models from scratch</b>: that's research; you're doing engineering.</li>
+          <li><b>Every new framework</b>: learn the concepts, frameworks are syntax.</li>
+          <li><b>Comparing 10 vector DBs</b>: pick one and move on.</li>
+          <li><b>Collecting certificates</b>: one deployed app beats ten badges.</li>
+          <li><b>Waiting to feel "ready"</b>: you won't. Start anyway.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><p class="eyebrow">Free resource stack</p><h2>Everything else you need</h2><p class="lede">All free except one book.</p></div>
+    <div class="res" id="res"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><p class="eyebrow">January 1, 2027</p><h2>What you'll have to show</h2></div>
+    <div class="haves">
+      <div class="have oct"><b>12</b><span>public repos</span></div>
+      <div class="have nov"><b>1</b><span>deployed product</span></div>
+      <div class="have dec"><b>12</b><span>build-in-public posts</span></div>
+      <div class="have oct"><b>1</b><span>eval report with real numbers</span></div>
+      <div class="have nov"><b>1</b><span>demo video</span></div>
+      <div class="have dec"><b>1</b><span>case study a recruiter reads in 3 minutes</span></div>
+    </div>
+    <p class="lede">A note from the comments worth keeping in mind: hiring teams spot tutorial clones quickly. Give at least one project real users, messy data, evals, monitoring and a cost analysis.</p>
+  </section>
+
+  <section>
+    <div class="box sync">
+      <p class="eyebrow">Your progress lives in this browser</p>
+      <h3>Move to another phone or laptop</h3>
+      <p style="font-size:.93rem;color:var(--muted)">Your start date, ticks and tracker are saved on this device only. Copy your progress code here and paste it on the other device to continue there.</p>
+      <div class="btns"><button class="btn ghost" id="exportBtn" type="button">Show my progress code</button><button class="btn ghost" id="importToggle" type="button">I have a code</button></div>
+      <textarea id="syncArea" aria-label="Progress code" hidden></textarea>
+      <div class="btns"><button class="btn" id="copyCode" type="button" hidden>Copy code</button><button class="btn" id="importBtn" type="button" hidden>Load this code</button></div>
+      <span id="syncMsg" class="toast"></span>
+    </div>
+  </section>
+
+  <footer>
+    <p>Based on <a href="https://ai.plainenglish.io/90-days-to-become-an-ai-engineer-the-oct-dec-roadmap-12-weeks-12-projects-7aabbca445d6" target="_blank" rel="noopener">"90 Days to Become an AI Engineer: The Oct → Dec Roadmap (12 Weeks, 12 Projects)"</a> by Sakshi Jaiswal, published in AI in Plain English. Week plan, dates and video picks follow the article; descriptions are summarised. Read the original for the full text.</p>
+    <p><button class="btn ghost" id="reset" type="button">Clear all my ticks</button> <span id="resetMsg" class="toast"></span></p>
+  </footer>
+</div>
+
+<script>
+const YT=id=>"https://www.youtube.com/watch?v="+id;
+const W=[
+ {m:0,dates:"Oct 1–7",end:[9,7],title:"Python for AI + LLM APIs",
+  learn:"HTTP requests, environment variables, async basics and Pydantic for validating data. Then read your model provider's quickstart docs from start to finish.",
+  ship:"CLI chatbot with memory",shipDesc:"A command-line chatbot that remembers the conversation. Bonus: let the user switch between two models and compare their answers.",
+  why:"Any AI product, however fancy, is an API call with good engineering wrapped around it.",
+  v:[["Learn Python – Full Course for Beginners (freeCodeCamp)",YT("rfscVS0vtbw"),"The classic starter course, a little over 4 hours. Skip the parts you already know."],
+     ["Python Requests Tutorial (Corey Schafer)",YT("tb8gHvYlCFs"),"Sending HTTP requests with Requests, which is how you'll call LLM APIs."]]},
+ {m:0,dates:"Oct 8–14",end:[9,14],title:"How LLMs actually work",
+  learn:"Tokens, context windows, temperature and sampling, why models hallucinate, and what embeddings are. You need intuition here, not equations.",
+  ship:"Token & cost visualizer",shipDesc:"Paste any text and see how it splits into tokens and what it would cost across a few different models.",
+  v:[["Large Language Models explained briefly (3Blue1Brown)",YT("LPZh9BOjkQs"),"About 8 minutes and the easiest on the list. Start here."],
+     ["[1hr Talk] Intro to Large Language Models (Andrej Karpathy)",YT("zjkBMFhNj_g"),"A one-hour general-audience intro to LLMs and one of the most-watched AI talks."],
+     ["Transformers, the tech behind LLMs (3Blue1Brown)",YT("wjZofJX0v4M"),"Optional visual deep dive."]]},
+ {m:0,dates:"Oct 15–21",end:[9,21],title:"Prompting + structured output",
+  learn:"System prompts, few-shot examples, asking the model to reason step by step, and the big one: getting reliable JSON back using schemas.",
+  ship:"Resume → JSON extractor",shipDesc:"Upload a messy resume and get clean structured data (name, skills, years of experience). Test it on 10 different resumes and write down where it breaks.",
+  v:[["Prompting 101 | Code w/ Claude",YT("ysPbXH0LpIE"),"Anthropic's applied AI team builds a prompt step by step for a real car-insurance-claims scenario."],
+     ["AI prompt engineering: A deep dive (Anthropic)",YT("T9aRN5JkmL8"),"Roundtable with Amanda Askell, Alex Albert, David Hershey and Zack Witten."]]},
+ {m:0,dates:"Oct 22–31",end:[9,31],title:"Embeddings & semantic search",
+  learn:"How text turns into vectors, cosine similarity, and why searching by meaning beats keyword search.",
+  ship:"Search your own notes",shipDesc:"Semantic search over your notes, bookmarks or journal. Ask \"what did I write about burnout?\" and get the right entries even when that word never appears.",
+  checkpoint:["Day 31 checkpoint · 4 repos live","You have 4 public repos and can explain tokens, embeddings and structured output to a friend without notes. If not, repeat the weak week before moving on. The plan bends; it doesn't break."],
+  v:[["Word Embedding and Word2Vec, Clearly Explained (StatQuest)",YT("viZrOnJclY0"),"How words become numbers a neural network can use."],
+     ["Vector databases are so hot right now. WTF are they? (Fireship)",YT("klTvEwg3oJ4"),"A short, fun explainer on vector databases as long-term memory for LLMs."]]},
+ {m:1,dates:"Nov 1–7",end:[10,7],title:"RAG from scratch",
+  learn:"Retrieval-Augmented Generation: chunk documents, store embeddings in a vector database, retrieve the relevant chunks and pass them to the model. Learn reranking too.",
+  ship:"Chat-with-PDF, no framework",shipDesc:"Build the whole pipeline yourself first. Reach for frameworks later, once you know what they hide from you.",
+  v:[["What is Retrieval-Augmented Generation (RAG)? (IBM)",YT("T-D1OfcDW1M"),"Marina Danilevsky's short whiteboard explainer."],
+     ["Learn RAG From Scratch (freeCodeCamp)",YT("sVcwVQRHIc8"),"Taught by Lance Martin, a LangChain engineer."]]},
+ {m:1,dates:"Nov 8–14",end:[10,14],title:"Tool use, agents & MCP",
+  learn:"Function calling, the basic agent loop (think → act → observe → repeat) and the Model Context Protocol for connecting models to tools and data. Read Anthropic's Building Effective Agents essay so you don't over-engineer.",
+  ship:"Research agent",shipDesc:"Give it a topic; it searches, reads and writes a one-page brief with sources.",
+  read:[["Building Effective Agents (Anthropic)","https://www.anthropic.com/engineering/building-effective-agents"]],
+  v:[["How We Build Effective Agents (Barry Zhang, Anthropic)",YT("D7_ipDqhtwk"),"Three principles: don't use agents for everything, keep them simple, think from the agent's side."],
+     ["Building Agents with Model Context Protocol (Mahesh Murag, Anthropic)",YT("kQmXtrmQ5Zg"),"Full workshop from Anthropic's Applied AI team."]]},
+ {m:1,dates:"Nov 15–21",end:[10,21],title:"Evals: the pro skill",
+  learn:"Build a golden test set, use an LLM as a judge, measure retrieval quality and catch regressions when a prompt changes. This week separates hobbyists from engineers.",
+  ship:"Eval harness + score report",shipDesc:"An eval harness for your Week 5 RAG app. Then improve the app and publish before/after numbers. A line like \"answer accuracy went from 62% to 84%\" gets interviews.",
+  read:[["Hamel Husain's evals notes","https://hamel.dev/notes/llm/evals/"],["AI Engineering by Chip Huyen (evals chapters)","https://www.oreilly.com/library/view/-/9781098166298/"]],
+  v:[["Why AI evals are the hottest new skill (Hamel Husain & Shreya Shankar, Lenny's Podcast)",YT("BsWxPI9UM4c"),"Step-by-step walkthrough of building an eval, plus code-based evals vs LLM-as-judge."],
+     ["Carrying Out Error Analysis (Andrew Ng)",YT("JoAxZsdw_3w"),"Short classic lecture referenced in the podcast above."]]},
+ {m:1,dates:"Nov 22–30",end:[10,30],title:"Open models & fine-tuning",
+  learn:"Running open-weight models locally (Ollama is the easy start), the Hugging Face ecosystem and LoRA intuition. Equally important: when not to fine-tune. Usually better prompts and retrieval come first.",
+  ship:"Local model + LoRA tune",shipDesc:"Run a small open model on your laptop, then LoRA-tune one on a tiny custom dataset in a free Colab notebook. Compare it with the prompt-only version using your Week 7 evals.",
+  checkpoint:["Day 61 checkpoint · your app has numbers","Your app doesn't just work, it has measurements. You can justify RAG over fine-tuning (or the reverse) with evidence."],
+  v:[["host ALL your AI locally (NetworkChuck)",YT("Wjrdr0NU4Sk"),"Step by step: install Ollama and deploy a web UI."],
+     ["RAG vs Fine-Tuning vs Prompt Engineering (IBM)",YT("zYGDpG-pTho"),"13 minutes on when to use each. Ideal for the \"when not to fine-tune\" lesson."]]},
+ {m:2,dates:"Dec 1–7",end:[11,7],title:"Production: APIs, streaming, cost",
+  learn:"Wrap your app in FastAPI, stream responses, add caching, rate limits, retries and cost tracking, and package it with Docker.",
+  ship:"Deployed RAG app",shipDesc:"Your RAG app deployed with a simple UI and a public URL. Send the link to five people and watch what they break.",
+  v:[["Python API Development – Comprehensive Course (freeCodeCamp, FastAPI)",YT("0sOvCWFmrtA"),"Long course; the first ~2.3 hours cover FastAPI basics, Pydantic validation, CRUD and auto docs."],
+     ["Docker in 100 Seconds (Fireship)",YT("Gjnup-PuquQ"),"Docker explained in 100 seconds."]]},
+ {m:2,dates:"Dec 8–14",end:[11,14],title:"Observability & guardrails",
+  learn:"Trace every model call, log inputs and outputs, and handle prompt injection, PII and output validation.",
+  ship:"\"I tried to break my own AI app\"",shipDesc:"Add tracing and a guardrail layer, then write a post with that title: the attacks you tried, which ones worked and how you fixed them.",
+  v:[["What Is a Prompt Injection Attack? (IBM)",YT("jrHRe9lSqqA"),"Short explainer from IBM Technology."],
+     ["Karpathy's LLM security section",YT("zjkBMFhNj_g")+"&t=2700s","Jumps to the ~45-minute mark of the Week 2 talk: jailbreaks, prompt injection, data poisoning."]]},
+ {m:2,dates:"Dec 15–21",end:[11,21],title:"Capstone build",
+  learn:"Pick one real problem you or someone you know actually has, and use everything: RAG, tools, evals, tracing, deployment. Ideas that work well: a policy-docs assistant with citations, a support-ticket triager, a meeting-notes agent that drafts follow-ups, a code-review helper for a framework you know, a study buddy that quizzes you from your notes.",
+  ship:"One real product",shipDesc:"A capstone that solves a real person's problem, built on all the layers from the past ten weeks.",
+  v:[["How to Get and Evaluate Startup Ideas (Jared Friedman, YC)",YT("Th8JoIan4dg"),"A framework for finding and judging ideas, with stories from YC companies."],
+     ["Software Is Changing (Again) (Andrej Karpathy)",YT("LCEmiRjPEtQ"),"His AI Startup School keynote; good inspiration for what to build."]]},
+ {m:2,dates:"Dec 22–31",end:[11,31],title:"Launch week",
+  learn:"Package and launch. On Day 92, post your final demo, the way others post resolutions.",
+  ship:"Demo video + case study",shipDesc:"A polished README, a 2-minute demo video, a case-study post (problem → approach → evals → lessons) and a LinkedIn launch post. Then start applying, or pitch the capstone to someone who has the problem.",
+  v:[["How to Launch (Again and Again) (Kat Mañalac, YC)",YT("3xU050kMbHM"),"Launching as something you keep doing, not a one-time event. The build-in-public mindset."],
+     ["The Best Way To Launch Your Startup (Kat Mañalac, YC)",YT("u36A-YTxiOw"),"The many ways to launch a product and get attention for it."]]}
+];
+const MONTHS=[["Month 1","Speak the language","oct"],["Month 2","Build things that think","nov"],["Month 3","Ship like a pro","dec"]];
+const W0=["Install Python, VS Code or Cursor, and Git","Create a GitHub repo called 90-day-ai-engineer","Get an API key from one model provider plus one free-tier alternative","Post \"I'm in\" with #90DayAIEngineer","Lock your start date at the top of this page"];
+const RES=[
+ ["Videos",[["Intro to Large Language Models (Karpathy)",YT("zjkBMFhNj_g")],["Deep Dive into LLMs like ChatGPT (Karpathy, 3h31m)",YT("7xTGNNLPyMI")],["Neural Networks: Zero to Hero (Karpathy)","https://karpathy.ai/zero-to-hero.html"],["3Blue1Brown neural networks + transformers playlist","https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi"]]],
+ ["Courses",[["Hugging Face LLM Course","https://huggingface.co/learn/llm-course/chapter1/1"],["Hugging Face Agents Course","https://huggingface.co/learn/agents-course/unit0/introduction"],["DeepLearning.AI Short Courses","https://www.deeplearning.ai/short-courses/"],["fast.ai Practical Deep Learning for Coders","https://course.fast.ai"]]],
+ ["Docs",[["Claude prompt engineering guide","https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"],["OpenAI prompt best practices","https://help.openai.com/en/articles/6654000-chatgpt-prompts-guide"],["Claude Cookbooks (GitHub)","https://github.com/anthropics/claude-cookbooks"],["OpenAI Cookbook (GitHub)","https://github.com/openai/openai-cookbook"],["Model Context Protocol docs","https://modelcontextprotocol.io/docs/getting-started/intro"],["FastAPI Tutorial","https://fastapi.tiangolo.com/tutorial/"]]],
+ ["Book & essays",[["AI Engineering, Chip Huyen (O'Reilly)","https://www.oreilly.com/library/view/-/9781098166298/","paid"],["Building Effective Agents (Anthropic)","https://www.anthropic.com/engineering/building-effective-agents"],["Hamel Husain's evals hub (start with \"Your AI Product Needs Evals\")","https://hamel.dev/notes/llm/evals/"]]],
+ ["Roadmaps",[["roadmap.sh – AI Engineer","https://roadmap.sh/ai-engineer"],["AI Engineering from Scratch","https://aiengineeringfromscratch.com/index.html"]]]
+];
+
+const KEY="ae90-v2";
+let S={};
+try{S=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){S={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const $=id=>document.getElementById(id);
+
+const weekIds=i=>[...W[i].v.map((_,j)=>`v${i}-${j}`),`ship${i}`];
+const weekPct=i=>{const ids=weekIds(i);return ids.filter(id=>S[id]).length/ids.length};
+
+// ---- dates: everything counts from the student's own start day ----
+const L=[7,7,7,10,7,7,7,9,7,7,7,10]; // 92 days, same week lengths as the article
+const OFF=L.map((_,i)=>L.slice(0,i).reduce((a,b)=>a+b,0));
+const MOFF=[0,31,61]; // month 1 = days 1–31, month 2 = 32–61, month 3 = 62–92
+const MLEN=[31,30,31];
+const today=new Date();today.setHours(0,0,0,0);
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const parseISO=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||"");return m?new Date(+m[1],+m[2]-1,+m[3]):null};
+const addDays=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+const fmt=d=>d.toLocaleDateString("en-IN",{day:"numeric",month:"short"});
+const fmtLong=d=>d.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
+const locked=()=>!!parseISO(S.start);
+const start=()=>parseISO(S.start)||today;
+const dayNum=()=>Math.floor((today-start())/864e5)+1;
+const weekOfDay=n=>{for(let i=0;i<12;i++)if(n-1<OFF[i]+L[i])return i;return 11};
+const weekRange=i=>`${fmt(addDays(start(),OFF[i]))} – ${fmt(addDays(start(),OFF[i]+L[i]-1))}`;
+const curWeek=()=>{const n=dayNum();return n<1?0:weekOfDay(Math.min(n,92))};
+let sel=curWeek();
+
+function renderToday(){
+  const n=dayNum(),s=start(),end=addDays(s,91);
+  $("setupBox").hidden=locked();
+  $("lockLine").hidden=!locked();
+  $("planOwner").textContent=locked()?`${S.name?S.name+"'s":"Your"} plan`:"Preview · where you'd be today";
+  if(locked())$("lockText").textContent=`Started ${fmtLong(s)} · locked`;
+  $("heroEyebrow").textContent=`#90DayAIEngineer · ${fmt(s)} → ${fmt(end)}${locked()?"":" (preview)"}`;
+  $("w0eyebrow").textContent=`Week 0 · ${fmt(addDays(s,-7))} – ${fmt(addDays(s,-1))} · Setup`;
+  MOFF.forEach((o,i)=>{$("act"+i).textContent=`ACT ${["I","II","III"][i]} · ${fmt(addDays(s,o))} – ${fmt(addDays(s,o+MLEN[i]-1))}`});
+  const big=$("todayBig"),sub=$("todaySub");
+  if(n<1){big.textContent="Week 0";sub.textContent=`Day 1 is ${fmtLong(s)}, in ${1-n} day${1-n===1?"":"s"}. Finish your setup checklist.`}
+  else if(n>92){big.textContent="Done";sub.textContent=`All 92 days finished on ${fmtLong(end)}. Post your final demo.`}
+  else{const w=curWeek();big.textContent="Week "+(w+1);sub.textContent=`Day ${n} of 92 · ${W[w].title} · ship by ${fmt(addDays(s,OFF[w]+L[w]-1))}`}
+  const p=Math.max(0,Math.min(1,n/92));
+  $("dayBar").style.width=(p*100)+"%";
+  $("dayPct").textContent=Math.round(p*100)+"%";
+}
+
+// ---- start-date setup & lock ----
+(function setup(){
+  const di=$("dateIn"),ni=$("nameIn");
+  di.min=iso(addDays(today,-14));di.max=iso(addDays(today,60));di.value=iso(today);
+  if(S.name)ni.value=S.name;
+  let pending=null;
+  $("lockBtn").onclick=()=>{
+    const d=parseISO(di.value),err=$("setupErr");
+    if(!d){err.textContent="Pick a start date first.";err.hidden=false;return}
+    if(d<addDays(today,-14)||d>addDays(today,60)){err.textContent=`Choose a date between ${fmt(addDays(today,-14))} and ${fmt(addDays(today,60))}.`;err.hidden=false;return}
+    err.hidden=true;pending=d;
+    $("confirmText").innerHTML=`<b>Day 1: ${esc(fmtLong(d))}</b><br>Day 92: ${esc(fmtLong(addDays(d,91)))}`;
+    $("confirmBox").hidden=false;$("lockBtn").hidden=true;
+  };
+  $("confirmNo").onclick=()=>{$("confirmBox").hidden=true;$("lockBtn").hidden=false;pending=null};
+  $("confirmYes").onclick=()=>{
+    if(!pending||locked())return;
+    S.start=iso(pending);S.name=ni.value.trim().slice(0,40);S.lockedAt=iso(today);save();
+    $("confirmBox").hidden=true;$("lockBtn").hidden=false;
+    sel=curWeek();everything();
+  };
+})();
+
+function bindChecks(root){
+  root.querySelectorAll("input[type=checkbox][data-k]").forEach(inp=>inp.addEventListener("change",()=>{
+    const k=inp.dataset.k; if(inp.checked)S[k]=1; else delete S[k]; save();
+    const vid=inp.closest(".vid"); if(vid)vid.classList.toggle("watched",inp.checked);
+    refresh();
+  }));
+}
+const vidRow=(t,u,note,k)=>`<div class="vid${S[k]?" watched":""}"><input type="checkbox" id="${k}" data-k="${k}" ${S[k]?"checked":""} aria-label="Watched: ${esc(t)}"><div><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a>${note?`<div class="note">${esc(note)}</div>`:""}</div></div>`;
+
+function renderQuarter(){
+  const q=$("quarter"),n=dayNum(),cw=curWeek();
+  q.innerHTML=MONTHS.map((m,mi)=>`<div class="month ${m[2]}"><div class="month-head"><h3>${m[0]}</h3><span>${m[1]}</span></div><div class="cells">${
+    W.map((w,i)=>w.m!==mi?"":`<button class="cell${i===cw&&n>=1&&n<=92?" now":""}${S["ship"+i]?" shipped":""}" role="tab" id="tab${i}" aria-selected="${i===sel}" data-i="${i}"><span class="n">${String(i+1).padStart(2,"0")}</span><span class="d">${weekRange(i)}</span><span class="p"><i style="width:${Math.round(weekPct(i)*100)}%"></i></span></button>`).join("")
+  }</div></div>`).join("");
+  q.querySelectorAll(".cell").forEach(b=>b.addEventListener("click",()=>{sel=+b.dataset.i;renderAll()}));
+}
+
+function renderPanel(){
+  const w=W[sel],p=$("panel"),m=MONTHS[w.m];
+  p.className="panel "+m[2];
+  p.setAttribute("aria-labelledby","tab"+sel);
+  p.innerHTML=`<div class="panel-top">
+      <p class="eyebrow">Week ${sel+1} · Days ${OFF[sel]+1}–${OFF[sel]+L[sel]} · ${weekRange(sel)} · ${m[1]}</p>
+      <h2>${esc(w.title)}</h2>
+      <div class="meta"><span class="chip c">Ship by ${fmt(addDays(start(),OFF[sel]+L[sel]-1))}: ${esc(w.ship)}</span><span class="chip" id="wkPct">${Math.round(weekPct(sel)*100)}% done</span></div>
+    </div>
+    <div class="panel-body">
+      <div class="col">
+        <h3>Learn</h3><p>${esc(w.learn)}</p>
+        ${w.why?`<p class="why"><b>Why it matters:</b> ${esc(w.why)}</p>`:""}
+        ${w.read?`<h3>Read</h3><ul class="clean">${w.read.map(r=>`<li><a href="${r[1]}" target="_blank" rel="noopener">${esc(r[0])} ↗</a></li>`).join("")}</ul>`:""}
+      </div>
+      <div class="col">
+        <div class="project"><p class="eyebrow">Project ${sel+1} · Ship</p><h4>${esc(w.ship)}</h4><p>${esc(w.shipDesc)}</p>
+          <label class="check" for="ship${sel}"><input type="checkbox" id="ship${sel}" data-k="ship${sel}" ${S["ship"+sel]?"checked":""}>Shipped to a public repo</label></div>
+        <h3>Watch</h3>
+        <div class="vids">${w.v.map((v,j)=>vidRow(v[0],v[1],v[2],`v${sel}-${j}`)).join("")}</div>
+      </div>
+    </div>
+    ${w.checkpoint?`<div class="checkpoint"><b>${esc(w.checkpoint[0])} · ${fmt(addDays(start(),OFF[sel]+L[sel]-1))}</b><span>${esc(w.checkpoint[1])}</span></div>`:""}
+    <div class="panel-nav">
+      <button class="btn ghost" id="prev" type="button" ${sel===0?"disabled":""}>← Week ${sel}</button>
+      <button class="btn ghost" id="next" type="button" ${sel===11?"disabled":""}>Week ${sel+2} →</button>
+    </div>`;
+  bindChecks(p);
+  $("prev").onclick=()=>{if(sel>0){sel--;renderAll()}};
+  $("next").onclick=()=>{if(sel<11){sel++;renderAll()}};
+}
+
+let filt="all";
+function renderLib(){
+  const rows=[];
+  W.forEach((w,i)=>{if(filt!=="all"&&+filt!==w.m)return;w.v.forEach((v,j)=>rows.push(
+    `<tr class="${MONTHS[w.m][2]}"><td class="wk">W${String(i+1).padStart(2,"0")}</td><td><a href="${v[1]}" target="_blank" rel="noopener">${esc(v[0])}</a><div class="url">${esc(v[1])}</div></td><td>${esc(v[2])}</td><td><button class="copy" type="button" data-u="${esc(v[1])}">Copy</button></td></tr>`))});
+  const tb=$("libBody");tb.innerHTML=rows.join("");
+  tb.querySelectorAll(".copy").forEach(b=>b.onclick=()=>copyText(b.dataset.u,b));
+}
+function showFallback(t,msg){const ta=$("copyFallback");ta.value=t;ta.hidden=false;ta.focus();ta.select();$("copyMsg").textContent=msg}
+function copyText(t,btn){
+  const done=()=>{if(btn){const o=btn.textContent;btn.textContent="Copied";setTimeout(()=>btn.textContent=o,1400)}};
+  try{navigator.clipboard.writeText(t).then(done,()=>showFallback(t,"Text selected; press Ctrl+C."))}catch(e){showFallback(t,"Text selected; press Ctrl+C.")}
+}
+document.querySelectorAll(".lib-tools [data-f]").forEach(b=>b.onclick=()=>{filt=b.dataset.f;document.querySelectorAll(".lib-tools [data-f]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderLib()});
+$("copyAll").onclick=()=>{
+  const txt=W.map((w,i)=>`Week ${i+1} (Days ${OFF[i]+1}–${OFF[i]+L[i]}) – ${w.title}\n`+w.v.map(v=>`- ${v[0]}: ${v[1]}`).join("\n")).join("\n\n");
+  try{navigator.clipboard.writeText(txt).then(()=>{$("copyMsg").textContent="All 24 links copied."},()=>showFallback(txt,"Text selected; press Ctrl+C."))}catch(err){showFallback(txt,"Text selected; press Ctrl+C.")}
+};
+
+// ---- 92-day tracker, one row per week, relative to start ----
+function renderTracker(){
+  const t=$("tracker"),n=dayNum(),s=start();
+  t.innerHTML=W.map((w,i)=>{
+    let cells="";
+    for(let k=0;k<L[i];k++){const di=OFF[i]+k,key="t"+di,dt=addDays(s,di),future=di+1>n;
+      cells+=`<button type="button" class="day${S[key]?" x":""}${di+1===n?" today":""}${future?" future":""}" data-k="${key}" aria-pressed="${!!S[key]}" ${future||!locked()?"disabled":""} title="Day ${di+1} · ${fmtLong(dt)}" aria-label="Day ${di+1}, ${fmtLong(dt)}">${dt.getDate()}<small>${fmt(dt).split(" ")[1]||""}</small></button>`}
+    return `<div class="wrow ${MONTHS[w.m][2]}"><span class="lbl">W${String(i+1).padStart(2,"0")}</span><div class="cellsrow">${cells}</div></div>`}).join("")+
+    (locked()?"":`<p class="preview-note">Lock your start date above to start crossing off days.</p>`);
+  t.querySelectorAll(".day:not([disabled])").forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(S[k])delete S[k];else S[k]=1;save();b.classList.toggle("x",!!S[k]);b.setAttribute("aria-pressed",!!S[k]);streaks()});
+  streaks();
+}
+function streaks(){
+  const has=i=>!!S["t"+i];
+  let done=0,best=0,run=0;const last=Math.min(Math.max(dayNum(),0),92);
+  for(let i=0;i<92;i++){if(has(i)){done++;run++;best=Math.max(best,run)}else run=0}
+  let cur=0,i=last-1;if(i>=0&&!has(i))i--; // today not ticked yet doesn't break the streak
+  for(;i>=0&&has(i);i--)cur++;
+  $("sDone").textContent=done;$("sStreak").textContent=cur;$("sBest").textContent=best;
+}
+
+function renderRes(){
+  $("res").innerHTML=RES.map(g=>`<div class="box"><h3>${g[0]}</h3><ul class="clean">${g[1].map(r=>`<li><a href="${r[1]}" target="_blank" rel="noopener">${esc(r[0])}</a>${r[2]?'<span class="paid">PAID</span>':""}</li>`).join("")}</ul></div>`).join("");
+}
+function renderW0(){
+  const el=$("w0checks");
+  el.innerHTML=W0.map((t,i)=>`<label class="vid${S["w0-"+i]?" watched":""}" for="w0-${i}"><input type="checkbox" id="w0-${i}" data-k="w0-${i}" ${S["w0-"+i]?"checked":""}><span>${esc(t)}</span></label>`).join("");
+  bindChecks(el);
+}
+
+// ---- move progress between devices ----
+const encode=o=>"AE90:"+btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+const decode=s=>{s=s.trim();if(!s.startsWith("AE90:"))throw 0;const o=JSON.parse(decodeURIComponent(escape(atob(s.slice(5)))));if(!o||typeof o!=="object")throw 0;return o};
+$("exportBtn").onclick=()=>{const a=$("syncArea");a.value=encode(S);a.readOnly=true;a.hidden=false;$("copyCode").hidden=false;$("importBtn").hidden=true;a.select();$("syncMsg").textContent=""};
+$("importToggle").onclick=()=>{const a=$("syncArea");a.value="";a.readOnly=false;a.hidden=false;a.placeholder="Paste your AE90:… code here";$("importBtn").hidden=false;$("copyCode").hidden=true;a.focus();$("syncMsg").textContent=""};
+$("copyCode").onclick=()=>{const a=$("syncArea");try{navigator.clipboard.writeText(a.value).then(()=>$("syncMsg").textContent="Code copied. Paste it on your other device.",()=>{a.select();$("syncMsg").textContent="Code selected; press Ctrl+C."})}catch(e){a.select()}};
+$("importBtn").onclick=()=>{
+  let o;try{o=decode($("syncArea").value)}catch(e){$("syncMsg").textContent="That code isn't valid. Copy the whole code, starting with AE90:";return}
+  if(locked()&&o.start&&o.start!==S.start){$("syncMsg").textContent=`This device is already locked to a start date of ${fmtLong(start())}, so a code with a different start can't be loaded.`;return}
+  S=o;save();$("syncArea").hidden=true;$("importBtn").hidden=true;$("syncMsg").textContent="Progress loaded.";sel=curWeek();everything();renderW0();
+};
+
+function refresh(){
+  const all=W.flatMap((_,i)=>weekIds(i));
+  const pct=all.filter(id=>S[id]).length/all.length;
+  $("doneBar").style.width=(pct*100)+"%";
+  $("donePct").textContent=Math.round(pct*100)+"%";
+  renderQuarter();
+  const c=$("wkPct");if(c)c.textContent=Math.round(weekPct(sel)*100)+"% done";
+}
+function renderAll(){renderPanel();refresh()}
+function everything(){renderToday();renderTracker();renderAll()}
+
+$("jumpNow").onclick=()=>{sel=curWeek();renderAll();$("plan").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})};
+const rb=$("reset");let armed=false;
+rb.onclick=()=>{if(!armed){armed=true;rb.textContent="Click again to clear your ticks";setTimeout(()=>{armed=false;rb.textContent="Clear all my ticks"},3000);return}
+  S={start:S.start,name:S.name,lockedAt:S.lockedAt};save();armed=false;rb.textContent="Clear all my ticks";$("resetMsg").textContent="Ticks cleared. Your start date stays locked.";renderW0();everything()};
+
+renderW0();renderLib();renderRes();everything();
+</script>
+
+</body>
+</html>
