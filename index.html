@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="90-day AI Engineer roadmap by Mahendra Singh: lock your start date, 12 weekly projects, English + Hindi (CampusX) videos, 92-day tracker and an AI tutor.">
+<meta name="description" content="90-day AI Engineer roadmap by Mahendra Singh: lock your start date, 12 weekly projects, videos, 92-day tracker and an AI tutor.">
 <meta name="author" content="Mahendra Singh">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Ship Every Friday</title>
@@ -197,12 +197,16 @@ td .url{font:.78rem var(--mono);color:var(--muted);word-break:break-all}
 /* CampusX */
 .cxbadge{font:600 .68rem var(--mono);color:var(--yt);border:1px solid var(--yt);border-radius:4px;padding:1px 5px;vertical-align:middle;margin-left:4px}
 .cxgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-.cxcard{display:grid;gap:4px;align-content:start;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);text-decoration:none;color:var(--fg)}
-.cxcard:hover{border-color:var(--yt)}
+.cxcard{display:grid;gap:4px;align-content:start;padding:14px 16px;border:1px solid transparent;border-radius:var(--r);background:var(--cs,var(--accent-soft));text-decoration:none;color:var(--fg);transition:border-color .15s,transform .15s}
+.cxcard:nth-child(4n+1){--cs:var(--oct-soft);--c:var(--oct)}
+.cxcard:nth-child(4n+2){--cs:var(--nov-soft);--c:var(--nov)}
+.cxcard:nth-child(4n+3){--cs:var(--dec-soft);--c:var(--dec)}
+.cxcard:nth-child(4n+4){--cs:var(--accent-soft);--c:var(--accent)}
+.cxcard:hover{border-color:var(--c);transform:translateY(-1px)}
 .cxcard:focus-visible{outline:2px solid var(--oct);outline-offset:2px}
 .cxcard b{font:700 1rem var(--display)}
 .cxcard span{font-size:.85rem;color:var(--muted)}
-.cxcard .cxtag{font:600 .7rem var(--mono);color:var(--yt);letter-spacing:.06em;text-transform:uppercase}
+.cxcard .cxtag{font:600 .7rem var(--mono);color:var(--c,var(--yt));letter-spacing:.06em;text-transform:uppercase}
 
 /* roadmaps */
 .maps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -272,7 +276,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
   .haves{grid-template-columns:repeat(3,minmax(0,1fr))}
   .tracker{max-width:420px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.cxcard:hover{transform:none}}
 </style>
 
 </head>
@@ -284,7 +288,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
     <div class="navlinks">
       <a href="#plan">12-week plan</a>
       <a href="#videos">Videos</a>
-      <a href="#campusx">Hindi (CampusX)</a>
+      <a href="#campusx">CampusX</a>
       <a href="#tracker-sec">Tracker</a>
       <a href="#roadmaps">Roadmaps</a>
       <a href="#resources">Resources</a>
@@ -407,8 +411,8 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
   </section>
 
   <section id="campusx">
-    <div class="sec-head"><p class="eyebrow">Learn in Hindi</p><h2>CampusX playlists for this roadmap</h2>
-    <p class="lede">Prefer Hindi explanations? These free CampusX playlists by Nitish Singh cover the same topics. Each week's panel above also lists the matching CampusX videos.</p></div>
+    <div class="sec-head"><p class="eyebrow">More playlists</p><h2>CampusX playlists for this roadmap</h2>
+    <p class="lede">These free CampusX playlists by Nitish Singh cover the same topics in more depth. Each week's panel above also lists the matching CampusX videos.</p></div>
     <div class="cxgrid" id="cxGrid"></div>
   </section>
 
@@ -535,7 +539,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
   <div class="msgs" id="msgs" aria-live="polite"></div>
   <form class="chat-foot" id="chatForm">
     <div class="chat-row">
-      <textarea id="chatIn" rows="1" placeholder="Type your doubt… (English or Hinglish)" aria-label="Your question"></textarea>
+      <textarea id="chatIn" rows="1" placeholder="Type your question…" aria-label="Your question"></textarea>
       <button class="btn" id="chatSend" type="submit">Send</button>
       <button class="btn ghost" id="chatStop" type="button" hidden>Stop</button>
     </div>
@@ -630,15 +634,15 @@ const RES=[
  ["Roadmaps",[["roadmap.sh – AI Engineer","https://roadmap.sh/ai-engineer"],["AI Engineering from Scratch","https://aiengineeringfromscratch.com/index.html"]]]
 ];
 
-// CampusX (Hindi) picks per week — optional, not counted in progress
+// CampusX picks per week — optional, not counted in progress
 const CX={
- 0:[["Python Programming playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_Rmvb1RYR-iTA_hzckhdONtSW4","Python basics in Hindi; skip what you know."],
+ 0:[["Python Programming playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_Rmvb1RYR-iTA_hzckhdONtSW4","Python basics; skip what you know."],
     ["Generative AI using LangChain playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvaTbihpo4MtzVm4XOQa0ER0","Start with the first few videos on calling LLMs from Python."]],
  1:[["What is Self Attention (CampusX)",YT("XnGGmvpDLA0"),"The core idea inside transformers, explained step by step."],
     ["100 Days of Deep Learning playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvYuZauWaPlRTC54KxSNLtNn","Jump to the transformer videos for deeper intuition."]],
  2:[["Structured Output in LangChain (CampusX)",YT("y5EmRr1O1h4"),"Getting JSON / Pydantic output from an LLM. Fits the resume extractor."],
     ["Prompts in LangChain (CampusX)",YT("3TGqlQxpuU0"),"Prompt templates, chat prompts and message types."]],
- 3:[["NLP playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvZo7fp5kkIth6nRTeQQsjfX","Word embeddings and Word2Vec in Hindi."]],
+ 3:[["NLP playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvZo7fp5kkIth6nRTeQQsjfX","Word embeddings and Word2Vec."]],
  4:[["YouTube Chatbot using LangChain – building a RAG system (CampusX)",YT("J5_-l7WIO_w"),"A full RAG project end to end. Build yours without a framework first, then compare."]],
  5:[["Building end-to-end AI Agent in LangChain (CampusX)",YT("gm_lQG8fYjI"),"Tools plus the agent loop in practice."],
     ["Model Context Protocol – The Why (CampusX)",YT("Zmy439spZB4"),"Why MCP exists, before you build with it."],
@@ -650,7 +654,7 @@ const CX={
  10:[["Agentic AI using LangGraph playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvYsvB8qkUQuJmJNuiCUJFPL","Patterns for multi-step agents to use in your capstone."]]
 };
 const CX_PLAYLISTS=[
- ["Python Programming","https://www.youtube.com/playlist?list=PLKnIA16_Rmvb1RYR-iTA_hzckhdONtSW4","Weeks 1 · Python basics"],
+ ["Python Programming","https://www.youtube.com/playlist?list=PLKnIA16_Rmvb1RYR-iTA_hzckhdONtSW4","Week 1 · Python basics"],
  ["Natural Language Processing","https://www.youtube.com/playlist?list=PLKnIA16_RmvZo7fp5kkIth6nRTeQQsjfX","Weeks 2–4 · text, embeddings, Word2Vec"],
  ["100 Days of Deep Learning","https://www.youtube.com/playlist?list=PLKnIA16_RmvYuZauWaPlRTC54KxSNLtNn","Week 2 · neural nets to transformers"],
  ["Generative AI using LangChain","https://www.youtube.com/playlist?list=PLKnIA16_RmvaTbihpo4MtzVm4XOQa0ER0","Weeks 1–6 · prompts, structured output, RAG, agents"],
@@ -659,7 +663,7 @@ const CX_PLAYLISTS=[
  ["FastAPI for Machine Learning","https://www.youtube.com/playlist?list=PLKnIA16_RmvZ41tjbKB2ZnwchfniNsMuQ","Week 9 · APIs and deployment"]
 ];
 function renderCX(){
-  $("cxGrid").innerHTML=CX_PLAYLISTS.map(p=>`<a class="cxcard" href="${p[1]}" target="_blank" rel="noopener"><span class="cxtag">Playlist · Hindi</span><b>${esc(p[0])}</b><span>${esc(p[2])}</span></a>`).join("");
+  $("cxGrid").innerHTML=CX_PLAYLISTS.map(p=>`<a class="cxcard" href="${p[1]}" target="_blank" rel="noopener"><span class="cxtag">Playlist · CampusX</span><b>${esc(p[0])}</b><span>${esc(p[2])}</span></a>`).join("");
 }
 
 const KEY="ae90-v2";
@@ -770,7 +774,7 @@ function renderPanel(){
           <label class="check" for="ship${sel}"><input type="checkbox" id="ship${sel}" data-k="ship${sel}" ${S["ship"+sel]?"checked":""}>Shipped to a public repo</label></div>
         <h3>Watch</h3>
         <div class="vids">${w.v.map((v,j)=>vidRow(v[0],v[1],v[2],`v${sel}-${j}`)).join("")}</div>
-        ${CX[sel]?`<h3>Watch in Hindi <span class="cxbadge">CampusX</span></h3><div class="vids">${CX[sel].map((v,j)=>vidRow(v[0],v[1],v[2],`c${sel}-${j}`)).join("")}</div>`:""}
+        ${CX[sel]?`<h3>Also watch <span class="cxbadge">CampusX</span></h3><div class="vids">${CX[sel].map((v,j)=>vidRow(v[0],v[1],v[2],`c${sel}-${j}`)).join("")}</div>`:""}
       </div>
     </div>
     ${w.checkpoint?`<div class="checkpoint"><b>${esc(w.checkpoint[0])} · ${fmt(addDays(start(),OFF[sel]+L[sel]-1))}</b><span>${esc(w.checkpoint[1])}</span></div>`:""}
@@ -884,14 +888,14 @@ const tutor=(()=>{
       `Today: Day ${Math.max(0,Math.min(n,92))} of 92`,
       `Current week: Week ${w+1} – ${W_.title}. Learn: ${W_.learn} Ship: ${W_.ship} – ${W_.shipDesc}`,
       `Videos this week: ${W_.v.map(v=>v[0]).join("; ")}`,
-      `Hindi videos this week (CampusX): ${(CX[w]||[]).map(v=>v[0]).join("; ")||"none"}`,
+      `CampusX videos this week: ${(CX[w]||[]).map(v=>v[0]).join("; ")||"none"}`,
       `Projects shipped: ${W.map((x,i)=>S["ship"+i]?"W"+(i+1):null).filter(Boolean).join(", ")||"none yet"}`,
       `Full plan: ${W.map((x,i)=>`W${i+1} ${x.title}`).join(" | ")}`
     ].join("\n");
   }
   const RULES=()=>`You are the AI tutor on a 90-day "become an AI engineer" learning website by Mahendra Singh (12 weeks, 12 projects, about 2 hours a day: 1 hour learn, 1 hour build, 1 post per week).
 How to answer:
-- Reply in the same language the student uses (English, Hindi or Hinglish).
+- Always reply in clear, simple English.
 - Be a patient teacher: short, clear answers first, then offer to go deeper. Use small Python examples in triple-backtick blocks when they help.
 - For project work, guide with hints, structure and debugging steps rather than writing the whole project, unless they ask for full code.
 - Tie answers to the student's current week and project, and point to the week's videos when useful.
@@ -902,7 +906,7 @@ ${context()}`;
   // Short version for a link (URLs have length limits)
   function linkPrompt(q){
     const w=curWeek(),n=dayNum();
-    let ctx=`I'm following a 90-day AI Engineer roadmap (12 weeks, 12 projects). I'm on Day ${Math.max(1,Math.min(n,92))}, Week ${w+1}: ${W[w].title}. This week I learn: ${W[w].learn} My project: ${W[w].ship} – ${W[w].shipDesc}\nAct as my patient tutor. Reply in the language I write in (English or Hinglish), keep it simple, give hints for project work rather than the full solution unless I ask.\n\nMy question: `;
+    let ctx=`I'm following a 90-day AI Engineer roadmap (12 weeks, 12 projects). I'm on Day ${Math.max(1,Math.min(n,92))}, Week ${w+1}: ${W[w].title}. This week I learn: ${W[w].learn} My project: ${W[w].ship} – ${W[w].shipDesc}\nAct as my patient tutor. Reply in simple English, give hints for project work rather than the full solution unless I ask.\n\nMy question: `;
     const room=1900-ctx.length;
     return ctx+(q.length>room?q.slice(0,room)+"…":q);
   }
@@ -933,7 +937,7 @@ ${context()}`;
     const how=canChatHere()?"Ask me any doubt right here.":"Type your doubt and I'll open it in **your own Claude** (sign in there with your account), already filled in with your week and project. No API key needed.";
     const b=bubble("bot",md(`Hi${S.name?" "+S.name:""}! I'm your AI tutor. ${locked()?`You're on **Week ${w+1}: ${W[w].title}**.`:"Lock your start date at the top so I know which week you're on."} ${how}`));
     const c=document.createElement("div");c.className="chips";
-    [`Explain Week ${w+1} in simple words`,"Help me plan today's 2 hours","Give me a hint for this week's project","Mujhe ek error aa raha hai"].forEach(q=>{const x=document.createElement("button");x.type="button";x.textContent=q;x.onclick=()=>{c.remove();ask(q)};c.appendChild(x)});
+    [`Explain Week ${w+1} in simple words`,"Help me plan today's 2 hours","Give me a hint for this week's project","I'm stuck on an error"].forEach(q=>{const x=document.createElement("button");x.type="button";x.textContent=q;x.onclick=()=>{c.remove();ask(q)};c.appendChild(x)});
     b.appendChild(c);
   }
   function setBusy(v){busy=v;send.hidden=v;stop.hidden=!v;inp.disabled=v}
