@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="12-week AI Engineer roadmap with your own locked start date, 24 videos, project tracker and 92-day chain tracker.">
+<meta name="description" content="90-day AI Engineer roadmap by Mahendra Singh: lock your start date, 12 weekly projects, English + Hindi (CampusX) videos, 92-day tracker and an AI tutor.">
+<meta name="author" content="Mahendra Singh">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Ship Every Friday</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +30,7 @@
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);padding-inline:16px}
-.wrap{max-width:1080px;margin:0 auto;padding-block:32px 64px;display:grid;gap:64px}
+.wrap{max-width:1280px;margin:0 auto;padding-block:28px 96px;display:grid;gap:56px}
 h1,h2,h3,h4{font-family:var(--display);line-height:1.12;margin:0;text-wrap:balance}
 h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.02em}
 h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:700}
@@ -46,7 +47,10 @@ section{display:grid;gap:22px}
 .oct{--c:var(--oct);--cs:var(--oct-soft)} .nov{--c:var(--nov);--cs:var(--nov-soft)} .dec{--c:var(--dec);--cs:var(--dec-soft)}
 
 /* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px;align-items:end}
+.hero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);gap:48px;align-items:start}
+.hero-text{padding-top:8px}
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 40px}
+.split .lede{max-width:none}
 .hero-text{display:grid;gap:18px;min-width:0}
 .hl{color:var(--oct)}
 .stats{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--mono);font-size:.88rem;color:var(--muted)}
@@ -178,13 +182,27 @@ td .url{font:.78rem var(--mono);color:var(--muted);word-break:break-all}
 .sync textarea{width:100%;min-height:70px;font:.75rem var(--mono);padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
 .sync .btns{display:flex;gap:8px;flex-wrap:wrap}
 
-/* week-row tracker */
-.wrows{display:grid;gap:8px}
-.wrow{display:grid;grid-template-columns:3.2em minmax(0,1fr);gap:10px;align-items:center}
-.wrow .lbl{font:700 .8rem var(--mono);color:var(--c)}
-.wrow .cellsrow{display:flex;flex-wrap:wrap;gap:4px}
-.wrow .day{width:34px;height:34px;aspect-ratio:auto;flex:none}
-.day small{position:absolute;bottom:1px;font-size:.5rem;opacity:.8}
+/* week-strip tracker: weeks flow side by side and wrap */
+.wrows{display:flex;flex-wrap:wrap;gap:18px 22px;align-items:flex-start}
+.wrow{display:grid;gap:6px;flex:none}
+.wrow .lbl{font:700 .75rem var(--mono);color:var(--c);display:flex;justify-content:space-between;gap:8px;border-bottom:2px solid var(--c);padding-bottom:3px}
+.wrow .lbl{width:0;min-width:100%}
+.wrow .lbl span{font-weight:500;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.wrow .cellsrow{display:flex;gap:3px}
+.wrow .day{width:32px;height:36px;aspect-ratio:auto;flex:none;font-size:.7rem}
+.day small{position:absolute;bottom:1px;font-size:.48rem;opacity:.8}
+.wrows .preview-note{flex-basis:100%}
+@media (max-width:560px){.wrow .day{width:30px;height:34px}}
+
+/* CampusX */
+.cxbadge{font:600 .68rem var(--mono);color:var(--yt);border:1px solid var(--yt);border-radius:4px;padding:1px 5px;vertical-align:middle;margin-left:4px}
+.cxgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.cxcard{display:grid;gap:4px;align-content:start;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);text-decoration:none;color:var(--fg)}
+.cxcard:hover{border-color:var(--yt)}
+.cxcard:focus-visible{outline:2px solid var(--oct);outline-offset:2px}
+.cxcard b{font:700 1rem var(--display)}
+.cxcard span{font-size:.85rem;color:var(--muted)}
+.cxcard .cxtag{font:600 .7rem var(--mono);color:var(--yt);letter-spacing:.06em;text-transform:uppercase}
 
 /* roadmaps */
 .maps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -193,11 +211,56 @@ td .url{font:.78rem var(--mono);color:var(--muted);word-break:break-all}
 .maptable{overflow-x:auto}
 .maptable table{min-width:600px}
 
+
+/* top nav */
+.topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px}
+.topnav-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.brand{font:800 1.05rem var(--display);color:var(--fg);text-decoration:none;display:flex;gap:8px;align-items:center}
+.brand i{width:10px;height:10px;border-radius:2px;background:var(--oct);display:inline-block;box-shadow:12px 0 0 var(--nov),24px 0 0 var(--dec);margin-right:24px}
+.byline{font:500 .78rem var(--mono);color:var(--muted);border-left:1px solid var(--line);padding-left:12px}
+.credit{font:600 .95rem var(--display);color:var(--fg)}
+.navlinks{display:flex;gap:4px 16px;flex-wrap:wrap;font-size:.9rem;margin-left:auto}
+.navlinks a{color:var(--muted);text-decoration:none;font-weight:500}
+.navlinks a:hover{color:var(--fg)}
+.navask{all:unset;cursor:pointer;font:600 .85rem var(--body);color:var(--bg);background:var(--fg);padding:7px 12px;border-radius:99px}
+.navask:focus-visible{outline:2px solid var(--oct);outline-offset:2px}
+
+/* AI tutor */
+.fab{all:unset;position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:40;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:10px;background:var(--accent);color:var(--bg);font:600 .95rem var(--body);padding:12px 18px;border-radius:99px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.fab svg{width:20px;height:20px}
+.fab:focus-visible{outline:3px solid var(--oct);outline-offset:3px}
+.chat{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:41;width:min(420px,calc(100vw - 32px));height:min(640px,calc(100vh - 120px));background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.22);display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.chat-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.chat-head .av{width:34px;height:34px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font:800 .9rem var(--display);flex:none}
+.chat-head b{display:block;font:700 1rem var(--display)}
+.chat-head small{color:var(--muted);font-size:.78rem}
+.chat-x{all:unset;cursor:pointer;margin-left:auto;font-size:1.4rem;line-height:1;color:var(--muted);padding:4px 8px;border-radius:6px}
+.chat-x:focus-visible{outline:2px solid var(--oct)}
+.msgs{overflow-y:auto;padding:16px;display:grid;gap:12px;align-content:start}
+.msg{max-width:88%;padding:10px 13px;border-radius:12px;font-size:.93rem;line-height:1.55;overflow-wrap:anywhere}
+.msg.bot{background:var(--sunken);justify-self:start;border-bottom-left-radius:4px}
+.msg.me{background:var(--accent);color:var(--bg);justify-self:end;border-bottom-right-radius:4px}
+.msg pre{background:var(--bg);color:var(--fg);padding:8px 10px;border-radius:6px;overflow-x:auto;font:.8rem/1.45 var(--mono);margin:6px 0;white-space:pre}
+.msg code{background:var(--bg)}
+.msg p{margin:0 0 6px} .msg p:last-child{margin:0}
+.msg ul{margin:4px 0;padding-left:1.1em}
+.msg.err{background:var(--oct-soft);color:var(--fg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{all:unset;cursor:pointer;font-size:.82rem;border:1px solid var(--line);background:var(--bg);color:var(--fg);padding:5px 10px;border-radius:99px}
+.chips button:focus-visible{outline:2px solid var(--oct)}
+.chat-foot{border-top:1px solid var(--line);padding:10px;display:grid;gap:6px}
+.chat-row{display:flex;gap:8px;align-items:flex-end}
+.chat-row textarea{flex:1;min-width:0;resize:none;font:.93rem/1.4 var(--body);padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);max-height:120px}
+.chat-row .btn{padding:9px 14px}
+.chat-note{font-size:.72rem;color:var(--muted)}
+.typing{color:var(--muted);font-style:italic}
+@media (max-width:860px){.navlinks{display:none}.byline{display:none}.fab span{display:none}.fab{padding:14px}}
+
 footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:20px;display:grid;gap:10px}
 .toast{font:.8rem var(--mono);color:var(--done)}
 
 @media (max-width:860px){
-  .hero,.w0,.panel-body,.two,.tracker,.res{grid-template-columns:1fr}
+  .split,.hero,.w0,.panel-body,.two,.tracker,.res{grid-template-columns:1fr}
   .col+.col{border-left:0;border-top:1px solid var(--line)}
   .acts,.ones,.quarter,.maps{grid-template-columns:1fr}
   .haves{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -208,7 +271,22 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
 
 </head>
 <body>
-<div class="wrap">
+<nav class="topnav" aria-label="Site">
+  <div class="topnav-in">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>90 Days · AI Engineer</a>
+    <span class="byline">by Mahendra Singh</span>
+    <div class="navlinks">
+      <a href="#plan">12-week plan</a>
+      <a href="#videos">Videos</a>
+      <a href="#campusx">Hindi (CampusX)</a>
+      <a href="#tracker-sec">Tracker</a>
+      <a href="#roadmaps">Roadmaps</a>
+      <a href="#resources">Resources</a>
+    </div>
+    <button class="navask" type="button" data-open-chat>Ask AI tutor</button>
+  </div>
+</nav>
+<div class="wrap" id="top">
 
   <header class="hero">
     <div class="hero-text">
@@ -254,7 +332,8 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
   </header>
 
   <section>
-    <div class="sec-head"><p class="eyebrow">Before you start</p><h2>Can this really be done in 90 days?</h2>
+    <div class="sec-head"><p class="eyebrow">Before you start</p><h2>Can this really be done in 90 days?</h2></div>
+    <div class="split">
       <p class="lede">Yes, if you already write basic code in any language: loops, functions, a little Git. New to coding? Keep the plan but slow it down: take Week 0 seriously, add a month of Python, then follow the same order.</p>
       <p class="lede">"AI engineer" here means someone who builds dependable products on top of existing models: chatbots that stay grounded, agents that finish the job, search that understands meaning. It is not ML research, and you won't be designing new architectures.</p>
     </div>
@@ -321,8 +400,14 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
     <textarea id="copyFallback" aria-label="All links" hidden readonly style="width:100%;min-height:160px;font:.8rem var(--mono)"></textarea>
   </section>
 
+  <section id="campusx">
+    <div class="sec-head"><p class="eyebrow">Learn in Hindi</p><h2>CampusX playlists for this roadmap</h2>
+    <p class="lede">Prefer Hindi explanations? These free CampusX playlists by Nitish Singh cover the same topics. Each week's panel above also lists the matching CampusX videos.</p></div>
+    <div class="cxgrid" id="cxGrid"></div>
+  </section>
+
   <section>
-    <div class="sec-head"><p class="eyebrow">Don't break the chain</p><h2>The 92-day tracker</h2>
+    <div class="sec-head"><p class="eyebrow" id="tracker-sec">Don't break the chain</p><h2>The 92-day tracker</h2>
     <p class="lede">Each day you finish your hour of learning and your hour of building, tap the box. One row per week of your plan; days after today stay locked until they arrive.</p></div>
     <div class="streak">
       <div><b id="sDone">0</b>days crossed off</div>
@@ -399,7 +484,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
   </section>
 
   <section>
-    <div class="sec-head"><p class="eyebrow">Free resource stack</p><h2>Everything else you need</h2><p class="lede">All free except one book.</p></div>
+    <div class="sec-head" id="resources"><p class="eyebrow">Free resource stack</p><h2>Everything else you need</h2><p class="lede">All free except one book.</p></div>
     <div class="res" id="res"></div>
   </section>
 
@@ -429,10 +514,29 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
   </section>
 
   <footer>
+    <p class="credit">Developed and updated by Mahendra Singh</p>
     <p>Based on <a href="https://ai.plainenglish.io/90-days-to-become-an-ai-engineer-the-oct-dec-roadmap-12-weeks-12-projects-7aabbca445d6" target="_blank" rel="noopener">"90 Days to Become an AI Engineer: The Oct → Dec Roadmap (12 Weeks, 12 Projects)"</a> by Sakshi Jaiswal, published in AI in Plain English. Week plan, dates and video picks follow the article; descriptions are summarised. Read the original for the full text.</p>
     <p><button class="btn ghost" id="reset" type="button">Clear all my ticks</button> <span id="resetMsg" class="toast"></span></p>
   </footer>
 </div>
+<button class="fab" id="fab" type="button" data-open-chat aria-haspopup="dialog" aria-controls="chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><span>Ask AI tutor</span></button>
+<section class="chat" id="chat" role="dialog" aria-label="AI tutor" hidden>
+  <div class="chat-head">
+    <span class="av" aria-hidden="true">AI</span>
+    <div><b>AI tutor</b><small id="chatSub">Ask any doubt about your 90-day plan</small></div>
+    <button class="chat-x" id="chatClose" type="button" aria-label="Close tutor">×</button>
+  </div>
+  <div class="msgs" id="msgs" aria-live="polite"></div>
+  <form class="chat-foot" id="chatForm">
+    <div class="chat-row">
+      <textarea id="chatIn" rows="1" placeholder="Type your doubt… (English or Hinglish)" aria-label="Your question"></textarea>
+      <button class="btn" id="chatSend" type="submit">Send</button>
+      <button class="btn ghost" id="chatStop" type="button" hidden>Stop</button>
+    </div>
+    <span class="chat-note">The tutor knows your current week and plan. It can make mistakes, so check code before you run it.</span>
+  </form>
+</section>
+
 
 <script>
 const YT=id=>"https://www.youtube.com/watch?v="+id;
@@ -514,6 +618,38 @@ const RES=[
  ["Roadmaps",[["roadmap.sh – AI Engineer","https://roadmap.sh/ai-engineer"],["AI Engineering from Scratch","https://aiengineeringfromscratch.com/index.html"]]]
 ];
 
+// CampusX (Hindi) picks per week — optional, not counted in progress
+const CX={
+ 0:[["Python Programming playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_Rmvb1RYR-iTA_hzckhdONtSW4","Python basics in Hindi; skip what you know."],
+    ["Generative AI using LangChain playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvaTbihpo4MtzVm4XOQa0ER0","Start with the first few videos on calling LLMs from Python."]],
+ 1:[["What is Self Attention (CampusX)",YT("XnGGmvpDLA0"),"The core idea inside transformers, explained step by step."],
+    ["100 Days of Deep Learning playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvYuZauWaPlRTC54KxSNLtNn","Jump to the transformer videos for deeper intuition."]],
+ 2:[["Structured Output in LangChain (CampusX)",YT("y5EmRr1O1h4"),"Getting JSON / Pydantic output from an LLM. Fits the resume extractor."],
+    ["Prompts in LangChain (CampusX)",YT("3TGqlQxpuU0"),"Prompt templates, chat prompts and message types."]],
+ 3:[["NLP playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvZo7fp5kkIth6nRTeQQsjfX","Word embeddings and Word2Vec in Hindi."]],
+ 4:[["YouTube Chatbot using LangChain – building a RAG system (CampusX)",YT("J5_-l7WIO_w"),"A full RAG project end to end. Build yours without a framework first, then compare."]],
+ 5:[["Building end-to-end AI Agent in LangChain (CampusX)",YT("gm_lQG8fYjI"),"Tools plus the agent loop in practice."],
+    ["Model Context Protocol – The Why (CampusX)",YT("Zmy439spZB4"),"Why MCP exists, before you build with it."],
+    ["Model Context Protocol playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_Rmva_oZ9F4ayUu9qcWgF7Fyc0","The full MCP series."]],
+ 8:[["FastAPI for Machine Learning playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvZ41tjbKB2ZnwchfniNsMuQ","Build and serve an API for your model or app."],
+    ["Docker for Machine Learning (CampusX)",YT("GToyQTGDOS4"),"Containerise your app before deploying."]],
+ 9:[["Observability in LangGraph (CampusX)",YT("ikzN6byFNWw"),"Tracing every step of an LLM app with LangSmith."],
+    ["LangSmith Crash Course (CampusX)",YT("4FFspU4riHk"),"Tracing, debugging and evaluating LLM apps."]],
+ 10:[["Agentic AI using LangGraph playlist (CampusX)","https://www.youtube.com/playlist?list=PLKnIA16_RmvYsvB8qkUQuJmJNuiCUJFPL","Patterns for multi-step agents to use in your capstone."]]
+};
+const CX_PLAYLISTS=[
+ ["Python Programming","https://www.youtube.com/playlist?list=PLKnIA16_Rmvb1RYR-iTA_hzckhdONtSW4","Weeks 1 · Python basics"],
+ ["Natural Language Processing","https://www.youtube.com/playlist?list=PLKnIA16_RmvZo7fp5kkIth6nRTeQQsjfX","Weeks 2–4 · text, embeddings, Word2Vec"],
+ ["100 Days of Deep Learning","https://www.youtube.com/playlist?list=PLKnIA16_RmvYuZauWaPlRTC54KxSNLtNn","Week 2 · neural nets to transformers"],
+ ["Generative AI using LangChain","https://www.youtube.com/playlist?list=PLKnIA16_RmvaTbihpo4MtzVm4XOQa0ER0","Weeks 1–6 · prompts, structured output, RAG, agents"],
+ ["Agentic AI using LangGraph","https://www.youtube.com/playlist?list=PLKnIA16_RmvYsvB8qkUQuJmJNuiCUJFPL","Weeks 6, 10, 11 · agents, observability, capstone"],
+ ["Model Context Protocol","https://www.youtube.com/playlist?list=PLKnIA16_Rmva_oZ9F4ayUu9qcWgF7Fyc0","Week 6 · MCP"],
+ ["FastAPI for Machine Learning","https://www.youtube.com/playlist?list=PLKnIA16_RmvZ41tjbKB2ZnwchfniNsMuQ","Week 9 · APIs and deployment"]
+];
+function renderCX(){
+  $("cxGrid").innerHTML=CX_PLAYLISTS.map(p=>`<a class="cxcard" href="${p[1]}" target="_blank" rel="noopener"><span class="cxtag">Playlist · Hindi</span><b>${esc(p[0])}</b><span>${esc(p[2])}</span></a>`).join("");
+}
+
 const KEY="ae90-v2";
 let S={};
 try{S=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){S={}}
@@ -546,6 +682,7 @@ let sel=curWeek();
 function renderToday(){
   const n=dayNum(),s=start(),end=addDays(s,91);
   $("setupBox").hidden=locked();
+  $("statusBox").hidden=!locked();
   $("lockLine").hidden=!locked();
   $("planOwner").textContent=locked()?`${S.name?S.name+"'s":"Your"} plan`:"Preview · where you'd be today";
   if(locked())$("lockText").textContent=`Started ${fmtLong(s)} · locked`;
@@ -621,6 +758,7 @@ function renderPanel(){
           <label class="check" for="ship${sel}"><input type="checkbox" id="ship${sel}" data-k="ship${sel}" ${S["ship"+sel]?"checked":""}>Shipped to a public repo</label></div>
         <h3>Watch</h3>
         <div class="vids">${w.v.map((v,j)=>vidRow(v[0],v[1],v[2],`v${sel}-${j}`)).join("")}</div>
+        ${CX[sel]?`<h3>Watch in Hindi <span class="cxbadge">CampusX</span></h3><div class="vids">${CX[sel].map((v,j)=>vidRow(v[0],v[1],v[2],`c${sel}-${j}`)).join("")}</div>`:""}
       </div>
     </div>
     ${w.checkpoint?`<div class="checkpoint"><b>${esc(w.checkpoint[0])} · ${fmt(addDays(start(),OFF[sel]+L[sel]-1))}</b><span>${esc(w.checkpoint[1])}</span></div>`:""}
@@ -659,7 +797,7 @@ function renderTracker(){
     let cells="";
     for(let k=0;k<L[i];k++){const di=OFF[i]+k,key="t"+di,dt=addDays(s,di),future=di+1>n;
       cells+=`<button type="button" class="day${S[key]?" x":""}${di+1===n?" today":""}${future?" future":""}" data-k="${key}" aria-pressed="${!!S[key]}" ${future||!locked()?"disabled":""} title="Day ${di+1} · ${fmtLong(dt)}" aria-label="Day ${di+1}, ${fmtLong(dt)}">${dt.getDate()}<small>${fmt(dt).split(" ")[1]||""}</small></button>`}
-    return `<div class="wrow ${MONTHS[w.m][2]}"><span class="lbl">W${String(i+1).padStart(2,"0")}</span><div class="cellsrow">${cells}</div></div>`}).join("")+
+    return `<div class="wrow ${MONTHS[w.m][2]}"><span class="lbl">W${String(i+1).padStart(2,"0")}<span>${esc(w.ship)}</span></span><div class="cellsrow">${cells}</div></div>`}).join("")+
     (locked()?"":`<p class="preview-note">Lock your start date above to start crossing off days.</p>`);
   t.querySelectorAll(".day:not([disabled])").forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(S[k])delete S[k];else S[k]=1;save();b.classList.toggle("x",!!S[k]);b.setAttribute("aria-pressed",!!S[k]);streaks()});
   streaks();
@@ -710,7 +848,113 @@ const rb=$("reset");let armed=false;
 rb.onclick=()=>{if(!armed){armed=true;rb.textContent="Click again to clear your ticks";setTimeout(()=>{armed=false;rb.textContent="Clear all my ticks"},3000);return}
   S={start:S.start,name:S.name,lockedAt:S.lockedAt};save();armed=false;rb.textContent="Clear all my ticks";$("resetMsg").textContent="Ticks cleared. Your start date stays locked.";renderW0();everything()};
 
-renderW0();renderLib();renderRes();everything();
+renderW0();renderLib();renderRes();renderCX();everything();
+
+// ---- AI tutor ----
+// Inside claude.ai it uses the viewer's own Claude (sample capability).
+// On your own site (Vercel) it calls /api/chat, which holds the API key on the server.
+const tutor=(()=>{
+  const chat=$("chat"),msgs=$("msgs"),inp=$("chatIn"),send=$("chatSend"),stop=$("chatStop");
+  let turns=[],busy=false,ctl=null,sampleFn=null,mode="unknown";
+  if(window.claude&&claude.use){claude.use("sample").then(f=>{if(f){sampleFn=f;mode="claude"}}).catch(()=>{})}
+
+  function context(){
+    const n=dayNum(),w=curWeek(),W_=W[w];
+    const lines=[
+      `Student name: ${S.name||"not given"}`,
+      `Start date: ${locked()?fmtLong(start()):"not locked yet (previewing from today)"}`,
+      `Today: ${fmtLong(today)} = Day ${Math.max(0,Math.min(n,92))} of 92${n<1?" (has not started yet)":n>92?" (plan finished)":""}`,
+      `Current week: Week ${w+1} – ${W_.title}. Learn: ${W_.learn} Ship: ${W_.ship} – ${W_.shipDesc}`,
+      `Videos this week: ${W_.v.map(v=>v[0]).join("; ")}`,
+      `Progress: ${W.map((x,i)=>`W${i+1} ${S["ship"+i]?"shipped":"not shipped"}`).join(", ")}; days crossed off in tracker: ${Array.from({length:92},(_,i)=>S["t"+i]?1:0).reduce((a,b)=>a+b,0)}`,
+      `Full plan: ${W.map((x,i)=>`W${i+1} ${x.title} (ship: ${x.ship})`).join(" | ")}`,
+      `Extra roadmaps on the site: roadmap.sh/ai-engineer and aiengineeringfromscratch.com`,
+      `Hindi videos this week (CampusX): ${(CX[w]||[]).map(v=>v[0]).join("; ")||"none"}`
+    ];
+    return lines.join("\n");
+  }
+  const RULES=()=>`You are the AI tutor on a 90-day "become an AI engineer" learning website (12 weeks, 12 projects, about 2 hours a day: 1 hour learn, 1 hour build, 1 post per week).
+How to answer:
+- Reply in the same language the student uses (English, Hindi or Hinglish).
+- Be a patient teacher: short, clear answers first, then offer to go deeper. Use small code examples in Python when they help, inside triple-backtick blocks.
+- For project work, guide with hints, structure and debugging steps rather than writing the whole project for them, unless they ask for full code.
+- Tie answers to the student's current week and project when relevant, and point to the week's videos or the extra roadmaps when useful.
+- If they are behind schedule, be encouraging and suggest a realistic catch-up for the next few days.
+- Stay on learning, AI engineering, coding and career topics; politely steer other topics back.
+Student context:
+${context()}`;
+
+  function md(t){
+    const parts=String(t).split(/```(?:[\w+-]*)\n?/);
+    return parts.map((p,i)=>{
+      if(i%2)return `<pre><code>${esc(p.replace(/\n$/,""))}</code></pre>`;
+      let h=esc(p).replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>");
+      return h.split(/\n{2,}/).map(par=>{
+        const ls=par.split("\n");
+        if(ls.every(l=>/^\s*([-*]|\d+\.)\s+/.test(l)||!l.trim()))return "<ul>"+ls.filter(l=>l.trim()).map(l=>"<li>"+l.replace(/^\s*([-*]|\d+\.)\s+/,"")+"</li>").join("")+"</ul>";
+        return par.trim()?"<p>"+par.replace(/\n/g,"<br>")+"</p>":"";
+      }).join("");
+    }).join("");
+  }
+  function bubble(cls,html){const d=document.createElement("div");d.className="msg "+cls;d.innerHTML=html;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d}
+  function greet(){
+    if(msgs.childElementCount)return;
+    const w=curWeek();
+    const b=bubble("bot",md(`Hi${S.name?" "+S.name:""}! I'm your AI tutor. ${locked()?`You're on **Week ${w+1}: ${W[w].title}**.`:"Lock your start date at the top so I know which week you're on."} Ask me any doubt: a concept, an error, or how to plan today's 2 hours.`));
+    const c=document.createElement("div");c.className="chips";
+    [`Explain Week ${w+1} in simple words`,"Help me plan today's 2 hours","Give me a hint for this week's project","Mujhe ek error aa raha hai"].forEach(q=>{const x=document.createElement("button");x.type="button";x.textContent=q;x.onclick=()=>{c.remove();ask(q)};c.appendChild(x)});
+    b.appendChild(c);
+  }
+  function setBusy(v){busy=v;send.hidden=v;stop.hidden=!v;inp.disabled=v}
+
+  async function viaServer(onText,signal){
+    const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},signal,
+      body:JSON.stringify({system:RULES(),messages:turns.slice(-16)})});
+    if(r.status===404)throw{code:"no_server"};
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok)throw{code:j.code||"server",message:j.error||""};
+    onText(j.text||"");return j.text||"";
+  }
+  async function viaClaude(onText,signal){
+    const {text}=await sampleFn([{role:"user",content:RULES()},{role:"assistant",content:"Understood. I'm ready to help this student."},...turns.slice(-16)],{cache:false,signal,modelTier:"quick",onText:({text})=>onText(text)});
+    return text;
+  }
+  const errCopy=e=>({
+    no_server:"The tutor isn't connected on this copy of the site yet. Your teacher needs to deploy it on Vercel with an API key (see README).",
+    not_granted:"The tutor needs your permission to use Claude. Send your question again and choose Allow.",
+    rate_limited:"Too many questions at once. Wait a minute and try again.",
+    rate_limit:"Too many questions at once. Wait a minute and try again.",
+    cancelled:""
+  }[e&&e.code]??"Something went wrong reaching the tutor. Check your internet and try again.");
+
+  async function ask(q){
+    q=q.trim();if(!q||busy)return;
+    turns.push({role:"user",content:q.slice(0,4000)});
+    bubble("me",esc(q).replace(/\n/g,"<br>"));
+    const b=bubble("bot",'<span class="typing">Thinking…</span>');
+    setBusy(true);ctl=new AbortController();
+    const onText=t=>{b.innerHTML=md(t);msgs.scrollTop=msgs.scrollHeight};
+    try{
+      const text=sampleFn?await viaClaude(onText,ctl.signal):await viaServer(onText,ctl.signal);
+      turns.push({role:"assistant",content:text});
+    }catch(e){
+      turns.pop();
+      if(e&&e.name==="AbortError")e={code:"cancelled"};
+      const keep=e&&e.text;const m=errCopy(e);
+      if(keep)b.innerHTML=md(keep);else if(m){b.className="msg bot err";b.textContent=m}else b.remove();
+    }finally{setBusy(false);inp.focus()}
+  }
+  $("chatForm").addEventListener("submit",ev=>{ev.preventDefault();const q=inp.value;inp.value="";inp.style.height="";ask(q)});
+  inp.addEventListener("keydown",ev=>{if(ev.key==="Enter"&&!ev.shiftKey){ev.preventDefault();$("chatForm").requestSubmit()}});
+  inp.addEventListener("input",()=>{inp.style.height="auto";inp.style.height=Math.min(inp.scrollHeight,120)+"px"});
+  stop.onclick=()=>ctl&&ctl.abort();
+  function open(){chat.hidden=false;$("fab").hidden=true;greet();inp.focus()}
+  function close(){chat.hidden=true;$("fab").hidden=false;$("fab").focus()}
+  document.querySelectorAll("[data-open-chat]").forEach(b=>b.addEventListener("click",open));
+  $("chatClose").onclick=close;
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!chat.hidden)close()});
+  return{open};
+})();
 </script>
 
 </body>
