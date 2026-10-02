@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="90-day AI Engineer roadmap by Mahendra Singh: lock your start date, 12 weekly projects, videos, 92-day tracker and an AI tutor.">
+<meta name="description" content="90-day AI Engineer roadmap by Mahendra Singh: batch calendars, 12 weekly projects, videos, 92-day tracker and an AI tutor.">
 <meta name="author" content="Mahendra Singh">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Ship Every Friday</title>
@@ -134,6 +134,7 @@ th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vert
 tr:last-child td{border-bottom:0}
 th{font:600 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--sunken)}
 td.wk{font-family:var(--mono);white-space:nowrap;color:var(--c);font-weight:600}
+td.wk small{display:block;font-weight:500;color:var(--muted);font-size:.72rem;margin-top:2px}
 td .url{font:.78rem var(--mono);color:var(--muted);word-break:break-all}
 .copy{font:500 .78rem var(--mono);border:1px solid var(--line);background:transparent;color:var(--muted);padding:3px 8px;border-radius:6px;cursor:pointer;white-space:nowrap}
 
@@ -177,6 +178,8 @@ td .url{font:.78rem var(--mono);color:var(--muted);word-break:break-all}
 .lockline{display:flex;align-items:center;gap:8px;font:600 .78rem var(--mono);color:var(--done)}
 .lockline svg{width:14px;height:14px;flex:none}
 .preview-note{font-size:.88rem;color:var(--oct);font-weight:600}
+.setup select{font:500 1rem var(--body);padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);width:100%}
+.batchfixed{background:var(--accent-soft);color:var(--fg);border-radius:8px;padding:10px 12px;font-size:.92rem}
 .err{font-size:.85rem;color:var(--yt)}
 .sync{display:grid;gap:8px}
 .sync textarea{width:100%;min-height:70px;font:.75rem var(--mono);padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
@@ -215,6 +218,15 @@ td .url{font:.78rem var(--mono);color:var(--muted);word-break:break-all}
 .maptable{overflow-x:auto}
 .maptable table{min-width:600px}
 
+
+/* Certiva strip */
+.promo{display:block;margin-inline:-16px;padding:8px 16px;background:var(--fg);color:var(--bg);text-decoration:none;font-size:.88rem}
+.promo-in{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.promo b{font:800 .95rem var(--display);color:var(--oct)}
+.promo-txt{opacity:.9}
+.promo-cta{font-weight:600;margin-left:auto;white-space:nowrap}
+.promo:hover .promo-cta{text-decoration:underline}
+.promo:focus-visible{outline:2px solid var(--oct);outline-offset:-2px}
 
 /* top nav */
 .topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px}
@@ -281,6 +293,9 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
 
 </head>
 <body>
+<a class="promo" href="https://www.certiva.co.in/" target="_blank" rel="noopener">
+  <span class="promo-in"><b>Certiva</b><span class="promo-txt">Preparing for a certification? Practice tests for AWS, Azure, Google Cloud, Snowflake, Databricks and more. 20 free questions on every exam.</span><span class="promo-cta">Start practising →</span></span>
+</a>
 <nav class="topnav" aria-label="Site">
   <div class="topnav-in">
     <a class="brand" href="#top"><i aria-hidden="true"></i>90 Days · AI Engineer</a>
@@ -292,6 +307,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
       <a href="#tracker-sec">Tracker</a>
       <a href="#roadmaps">Roadmaps</a>
       <a href="#resources">Resources</a>
+      <a href="https://www.certiva.co.in/" target="_blank" rel="noopener">Certification practice ↗</a>
     </div>
     <button class="navask" type="button" data-open-chat>Ask AI tutor</button>
   </div>
@@ -312,20 +328,21 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
     </div>
     <aside class="today" aria-live="polite">
       <div id="setupBox" class="setup" hidden>
-        <p class="eyebrow">Step 1 · Set your start date</p>
-        <h3>When does your Day 1 begin?</h3>
+        <p class="eyebrow">Step 1 · Join your batch</p>
+        <h3>Which batch are you in?</h3>
         <label for="nameIn">Your name (shown on your plan)
           <input id="nameIn" type="text" maxlength="40" placeholder="e.g. Priya" autocomplete="given-name"></label>
-        <label for="dateIn">Start date
-          <input id="dateIn" type="date"></label>
+        <label for="batchIn" id="batchLabel">Your batch
+          <select id="batchIn"></select></label>
+        <p class="batchfixed" id="batchFixed" hidden></p>
         <p class="err" id="setupErr" hidden></p>
-        <button class="btn" id="lockBtn" type="button">Lock my start date</button>
+        <button class="btn" id="lockBtn" type="button">Join this batch</button>
         <div class="confirm" id="confirmBox" hidden>
           <span id="confirmText"></span>
-          <span>Once locked, the date can't be changed. All 12 weeks and ship dates will be set from it.</span>
+          <span>Once you join, your batch can't be changed. All 12 weeks and ship dates follow your batch calendar.</span>
           <div class="btns"><button class="btn" id="confirmYes" type="button">Yes, lock it</button><button class="btn ghost" id="confirmNo" type="button">Go back</button></div>
         </div>
-        <p class="preview-note">Until you lock a date, the plan below is a preview starting today.</p>
+        <p class="preview-note">Batch dates are set by your teacher. Until you join, the plan below is a preview of the selected batch.</p>
       </div>
       <div id="statusBox" style="display:grid;gap:12px">
         <p class="eyebrow" id="planOwner">Where you are today</p>
@@ -446,12 +463,12 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
       <table>
         <thead><tr><th>Your weeks</th><th>What you ship</th><th>On roadmap.sh, look at</th><th>In From Scratch, go to</th></tr></thead>
         <tbody>
-          <tr class="oct"><td class="wk">W1–W2</td><td>Chatbot, token visualizer</td><td>Pre-trained models, how LLMs work, OpenAI/Claude APIs</td><td>Setup &amp; tooling, software fundamentals, model architecture (optional depth)</td></tr>
-          <tr class="oct"><td class="wk">W3–W4</td><td>Resume extractor, notes search</td><td>Prompt engineering, embeddings, vector databases</td><td>LLM engineering: prompts, structured output, embeddings</td></tr>
-          <tr class="nov"><td class="wk">W5–W6</td><td>Chat-with-PDF, research agent</td><td>RAG, AI agents, tool use / function calling</td><td>Retrieval, agent engineering, tools &amp; protocols (MCP)</td></tr>
-          <tr class="nov"><td class="wk">W7–W8</td><td>Eval harness, LoRA tune</td><td>Open-source models, fine-tuning, evaluation</td><td>Evaluation &amp; testing, training basics</td></tr>
-          <tr class="dec"><td class="wk">W9–W10</td><td>Deployed app, guardrails post</td><td>AI safety &amp; ethics, prompt injection, deployment</td><td>Serving &amp; deployment, observability &amp; monitoring</td></tr>
-          <tr class="dec"><td class="wk">W11–W12</td><td>Capstone, launch</td><td>Projects section for more build ideas</td><td>Pick one deep-dive phase for January</td></tr>
+          <tr class="oct"><td class="wk" data-wr="0-1">W1–W2</td><td>Chatbot, token visualizer</td><td>Pre-trained models, how LLMs work, OpenAI/Claude APIs</td><td>Setup &amp; tooling, software fundamentals, model architecture (optional depth)</td></tr>
+          <tr class="oct"><td class="wk" data-wr="2-3">W3–W4</td><td>Resume extractor, notes search</td><td>Prompt engineering, embeddings, vector databases</td><td>LLM engineering: prompts, structured output, embeddings</td></tr>
+          <tr class="nov"><td class="wk" data-wr="4-5">W5–W6</td><td>Chat-with-PDF, research agent</td><td>RAG, AI agents, tool use / function calling</td><td>Retrieval, agent engineering, tools &amp; protocols (MCP)</td></tr>
+          <tr class="nov"><td class="wk" data-wr="6-7">W7–W8</td><td>Eval harness, LoRA tune</td><td>Open-source models, fine-tuning, evaluation</td><td>Evaluation &amp; testing, training basics</td></tr>
+          <tr class="dec"><td class="wk" data-wr="8-9">W9–W10</td><td>Deployed app, guardrails post</td><td>AI safety &amp; ethics, prompt injection, deployment</td><td>Serving &amp; deployment, observability &amp; monitoring</td></tr>
+          <tr class="dec"><td class="wk" data-wr="10-11">W11–W12</td><td>Capstone, launch</td><td>Projects section for more build ideas</td><td>Pick one deep-dive phase for January</td></tr>
         </tbody>
       </table>
     </div>
@@ -512,7 +529,7 @@ footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padd
     <div class="box sync">
       <p class="eyebrow">Your progress lives in this browser</p>
       <h3>Move to another phone or laptop</h3>
-      <p style="font-size:.93rem;color:var(--muted)">Your start date, ticks and tracker are saved on this device only. Copy your progress code here and paste it on the other device to continue there.</p>
+      <p style="font-size:.93rem;color:var(--muted)">Your batch, ticks and tracker are saved on this device only. Copy your progress code here and paste it on the other device to continue there.</p>
       <div class="btns"><button class="btn ghost" id="exportBtn" type="button">Show my progress code</button><button class="btn ghost" id="importToggle" type="button">I have a code</button></div>
       <textarea id="syncArea" aria-label="Progress code" hidden></textarea>
       <div class="btns"><button class="btn" id="copyCode" type="button" hidden>Copy code</button><button class="btn" id="importBtn" type="button" hidden>Load this code</button></div>
@@ -622,7 +639,7 @@ const W=[
      ["The Best Way To Launch Your Startup (Kat Mañalac, YC)",YT("u36A-YTxiOw"),"The many ways to launch a product and get attention for it."]]}
 ];
 const MONTHS=[["Month 1","Speak the language","oct"],["Month 2","Build things that think","nov"],["Month 3","Ship like a pro","dec"]];
-const W0=["Install Python, VS Code or Cursor, and Git","Create a GitHub repo called 90-day-ai-engineer","Get an API key from one model provider plus one free-tier alternative","Post \"I'm in\" with #90DayAIEngineer","Lock your start date at the top of this page"];
+const W0=["Install Python, VS Code or Cursor, and Git","Create a GitHub repo called 90-day-ai-engineer","Get an API key from one model provider plus one free-tier alternative","Post \"I'm in\" with #90DayAIEngineer","Join your batch at the top of this page"];
 const RES=[
  ["Videos",[["Intro to Large Language Models (Karpathy)",YT("zjkBMFhNj_g")],["Deep Dive into LLMs like ChatGPT (Karpathy, 3h31m)",YT("7xTGNNLPyMI")],["Neural Networks: Zero to Hero (Karpathy)","https://karpathy.ai/zero-to-hero.html"],["3Blue1Brown neural networks + transformers playlist","https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi"]]],
  ["Courses",[["Hugging Face LLM Course","https://huggingface.co/learn/llm-course/chapter1/1"],["Hugging Face Agents Course","https://huggingface.co/learn/agents-course/unit0/introduction"],["DeepLearning.AI Short Courses","https://www.deeplearning.ai/short-courses/"],["fast.ai Practical Deep Learning for Coders","https://course.fast.ai"]]],
@@ -684,8 +701,24 @@ const parseISO=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||"");return m?new 
 const addDays=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
 const fmt=d=>d.toLocaleDateString("en-IN",{day:"numeric",month:"short"});
 const fmtLong=d=>d.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
+// ================= TEACHER SETTINGS =================
+// Batch calendars. Students can only join one of these, so nobody can invent
+// their own dates (not even in an incognito window). Add, edit or remove rows.
+// id: letters, digits and dashes only. Share a direct link as  yoursite.com/#oct-2026
+const BATCHES=[
+  {id:"oct-2026",name:"October 2026 batch",start:"2026-10-01"},
+  {id:"oct-15-2026",name:"Mid-October 2026 batch",start:"2026-10-15"},
+  {id:"nov-2026",name:"November 2026 batch",start:"2026-11-01"}
+];
+// Students can join a batch until this many days after its Day 1.
+const JOIN_WINDOW_DAYS=14;
+// ====================================================
+const batchById=id=>BATCHES.find(b=>b.id===id)||null;
+const openBatches=()=>BATCHES.filter(b=>{const d=parseISO(b.start);return d&&today<=addDays(d,JOIN_WINDOW_DAYS)});
+const hashBatch=()=>{const h=(location.hash||"").slice(1);return batchById(h)};
+let previewBatch=null;
 const locked=()=>!!parseISO(S.start);
-const start=()=>parseISO(S.start)||today;
+const start=()=>parseISO(S.start)||(previewBatch&&parseISO(previewBatch.start))||today;
 const dayNum=()=>Math.floor((today-start())/864e5)+1;
 const weekOfDay=n=>{for(let i=0;i<12;i++)if(n-1<OFF[i]+L[i])return i;return 11};
 const weekRange=i=>`${fmt(addDays(start(),OFF[i]))} – ${fmt(addDays(start(),OFF[i]+L[i]-1))}`;
@@ -698,8 +731,11 @@ function renderToday(){
   $("statusBox").hidden=!locked();
   $("lockLine").hidden=!locked();
   $("planOwner").textContent=locked()?`${S.name?S.name+"'s":"Your"} plan`:"Preview · where you'd be today";
-  if(locked())$("lockText").textContent=`Started ${fmtLong(s)} · locked`;
+  if(locked())$("lockText").textContent=`${(batchById(S.batch)||{}).name||"Your plan"} · Day 1 ${fmtLong(s)} · locked`;
   $("heroEyebrow").textContent=`#90DayAIEngineer · ${fmt(s)} → ${fmt(end)}${locked()?"":" (preview)"}`;
+  document.querySelectorAll("td.wk[data-wr]").forEach(td=>{const [a,b]=td.dataset.wr.split("-").map(Number);
+    td.innerHTML=`W${a+1}–W${b+1}<small>${fmt(addDays(s,OFF[a]))} – ${fmt(addDays(s,OFF[b]+L[b]-1))}</small>`});
+  renderLib();
   $("w0eyebrow").textContent=`Week 0 · ${fmt(addDays(s,-7))} – ${fmt(addDays(s,-1))} · Setup`;
   MOFF.forEach((o,i)=>{$("act"+i).textContent=`ACT ${["I","II","III"][i]} · ${fmt(addDays(s,o))} – ${fmt(addDays(s,o+MLEN[i]-1))}`});
   const big=$("todayBig"),sub=$("todaySub");
@@ -711,24 +747,32 @@ function renderToday(){
   $("dayPct").textContent=Math.round(p*100)+"%";
 }
 
-// ---- start-date setup & lock ----
+// ---- batch setup & lock ----
 (function setup(){
-  const di=$("dateIn"),ni=$("nameIn");
-  di.min=iso(addDays(today,-14));di.max=iso(addDays(today,60));di.value=iso(today);
+  const sel_=$("batchIn"),ni=$("nameIn"),fixed=hashBatch();
   if(S.name)ni.value=S.name;
+  const list=fixed?[fixed]:openBatches();
+  if(fixed){
+    $("batchLabel").hidden=true;$("batchFixed").hidden=false;
+    $("batchFixed").innerHTML=`You're joining <b>${esc(fixed.name)}</b>. Day 1: ${esc(fmtLong(parseISO(fixed.start)))}.`;
+  }
+  sel_.innerHTML=list.length?list.map(b=>`<option value="${esc(b.id)}">${esc(b.name)} · starts ${esc(fmt(parseISO(b.start)))}</option>`).join("")
+    :`<option value="">No batch is open right now</option>`;
+  previewBatch=list[0]||null;
+  sel_.onchange=()=>{previewBatch=batchById(sel_.value);everything()};
   let pending=null;
   $("lockBtn").onclick=()=>{
-    const d=parseISO(di.value),err=$("setupErr");
-    if(!d){err.textContent="Pick a start date first.";err.hidden=false;return}
-    if(d<addDays(today,-14)||d>addDays(today,60)){err.textContent=`Choose a date between ${fmt(addDays(today,-14))} and ${fmt(addDays(today,60))}.`;err.hidden=false;return}
-    err.hidden=true;pending=d;
-    $("confirmText").innerHTML=`<b>Day 1: ${esc(fmtLong(d))}</b><br>Day 92: ${esc(fmtLong(addDays(d,91)))}`;
+    const b=fixed||batchById(sel_.value),err=$("setupErr");
+    if(!b){err.textContent="No batch is open to join right now. Ask your teacher for your batch link.";err.hidden=false;return}
+    if(!ni.value.trim()){err.textContent="Enter your name first.";err.hidden=false;ni.focus();return}
+    err.hidden=true;pending=b;const d=parseISO(b.start);
+    $("confirmText").innerHTML=`<b>${esc(b.name)}</b><br>Day 1: ${esc(fmtLong(d))} · Day 92: ${esc(fmtLong(addDays(d,91)))}`;
     $("confirmBox").hidden=false;$("lockBtn").hidden=true;
   };
   $("confirmNo").onclick=()=>{$("confirmBox").hidden=true;$("lockBtn").hidden=false;pending=null};
   $("confirmYes").onclick=()=>{
     if(!pending||locked())return;
-    S.start=iso(pending);S.name=ni.value.trim().slice(0,40);S.lockedAt=iso(today);save();
+    S.start=pending.start;S.batch=pending.id;S.name=ni.value.trim().slice(0,40);S.lockedAt=iso(today);save();
     $("confirmBox").hidden=true;$("lockBtn").hidden=false;
     sel=curWeek();everything();
   };
@@ -788,7 +832,7 @@ let filt="all";
 function renderLib(){
   const rows=[];
   W.forEach((w,i)=>{if(filt!=="all"&&+filt!==w.m)return;w.v.forEach((v,j)=>rows.push(
-    `<tr class="${MONTHS[w.m][2]}"><td class="wk">W${String(i+1).padStart(2,"0")}</td><td><a href="${v[1]}" target="_blank" rel="noopener">${esc(v[0])}</a><div class="url">${esc(v[1])}</div></td><td>${esc(v[2])}</td><td><button class="copy" type="button" data-u="${esc(v[1])}">Copy</button></td></tr>`))});
+    `<tr class="${MONTHS[w.m][2]}"><td class="wk">W${String(i+1).padStart(2,"0")}<small>${weekRange(i)}</small></td><td><a href="${v[1]}" target="_blank" rel="noopener">${esc(v[0])}</a><div class="url">${esc(v[1])}</div></td><td>${esc(v[2])}</td><td><button class="copy" type="button" data-u="${esc(v[1])}">Copy</button></td></tr>`))});
   const tb=$("libBody");tb.innerHTML=rows.join("");
   tb.querySelectorAll(".copy").forEach(b=>b.onclick=()=>copyText(b.dataset.u,b));
 }
@@ -799,7 +843,7 @@ function copyText(t,btn){
 }
 document.querySelectorAll(".lib-tools [data-f]").forEach(b=>b.onclick=()=>{filt=b.dataset.f;document.querySelectorAll(".lib-tools [data-f]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderLib()});
 $("copyAll").onclick=()=>{
-  const txt=W.map((w,i)=>`Week ${i+1} (Days ${OFF[i]+1}–${OFF[i]+L[i]}) – ${w.title}\n`+w.v.map(v=>`- ${v[0]}: ${v[1]}`).join("\n")).join("\n\n");
+  const txt=W.map((w,i)=>`Week ${i+1} (${weekRange(i)}) – ${w.title}\n`+w.v.map(v=>`- ${v[0]}: ${v[1]}`).join("\n")).join("\n\n");
   try{navigator.clipboard.writeText(txt).then(()=>{$("copyMsg").textContent="All 24 links copied."},()=>showFallback(txt,"Text selected; press Ctrl+C."))}catch(err){showFallback(txt,"Text selected; press Ctrl+C.")}
 };
 
@@ -811,7 +855,7 @@ function renderTracker(){
     for(let k=0;k<L[i];k++){const di=OFF[i]+k,key="t"+di,dt=addDays(s,di),future=di+1>n;
       cells+=`<button type="button" class="day${S[key]?" x":""}${di+1===n?" today":""}${future?" future":""}" data-k="${key}" aria-pressed="${!!S[key]}" ${future||!locked()?"disabled":""} title="Day ${di+1} · ${fmtLong(dt)}" aria-label="Day ${di+1}, ${fmtLong(dt)}">${dt.getDate()}<small>${fmt(dt).split(" ")[1]||""}</small></button>`}
     return `<div class="wrow ${MONTHS[w.m][2]}"><span class="lbl">W${String(i+1).padStart(2,"0")}<span>${esc(w.ship)}</span></span><div class="cellsrow">${cells}</div></div>`}).join("")+
-    (locked()?"":`<p class="preview-note">Lock your start date above to start crossing off days.</p>`);
+    (locked()?"":`<p class="preview-note">Join your batch at the top to start crossing off days.</p>`);
   t.querySelectorAll(".day:not([disabled])").forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(S[k])delete S[k];else S[k]=1;save();b.classList.toggle("x",!!S[k]);b.setAttribute("aria-pressed",!!S[k]);streaks()});
   streaks();
 }
@@ -841,7 +885,8 @@ $("importToggle").onclick=()=>{const a=$("syncArea");a.value="";a.readOnly=false
 $("copyCode").onclick=()=>{const a=$("syncArea");try{navigator.clipboard.writeText(a.value).then(()=>$("syncMsg").textContent="Code copied. Paste it on your other device.",()=>{a.select();$("syncMsg").textContent="Code selected; press Ctrl+C."})}catch(e){a.select()}};
 $("importBtn").onclick=()=>{
   let o;try{o=decode($("syncArea").value)}catch(e){$("syncMsg").textContent="That code isn't valid. Copy the whole code, starting with AE90:";return}
-  if(locked()&&o.start&&o.start!==S.start){$("syncMsg").textContent=`This device is already locked to a start date of ${fmtLong(start())}, so a code with a different start can't be loaded.`;return}
+  if(o.start&&!locked()&&!BATCHES.some(b=>b.start===o.start)&&o.start!==S.start){$("syncMsg").textContent="This code belongs to a batch that no longer exists on this site.";return}
+  if(locked()&&o.start&&o.start!==S.start){$("syncMsg").textContent=`This device is already in a batch starting ${fmtLong(start())}, so a code with a different start can't be loaded.`;return}
   S=o;save();$("syncArea").hidden=true;$("importBtn").hidden=true;$("syncMsg").textContent="Progress loaded.";sel=curWeek();everything();renderW0();
 };
 
@@ -859,9 +904,9 @@ function everything(){renderToday();renderTracker();renderAll()}
 $("jumpNow").onclick=()=>{sel=curWeek();renderAll();$("plan").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})};
 const rb=$("reset");let armed=false;
 rb.onclick=()=>{if(!armed){armed=true;rb.textContent="Click again to clear your ticks";setTimeout(()=>{armed=false;rb.textContent="Clear all my ticks"},3000);return}
-  S={start:S.start,name:S.name,lockedAt:S.lockedAt};save();armed=false;rb.textContent="Clear all my ticks";$("resetMsg").textContent="Ticks cleared. Your start date stays locked.";renderW0();everything()};
+  S={start:S.start,batch:S.batch,name:S.name,lockedAt:S.lockedAt};save();armed=false;rb.textContent="Clear all my ticks";$("resetMsg").textContent="Ticks cleared. Your batch stays locked.";renderW0();everything()};
 
-renderW0();renderLib();renderRes();renderCX();everything();
+sel=curWeek();renderW0();renderLib();renderRes();renderCX();everything();
 
 // ---- AI tutor: always the student's OWN account, never the site owner's key ----
 // 1) Inside the Claude app / claude.ai artifact: chats here using the student's Claude (sample capability).
@@ -932,7 +977,7 @@ ${context()}`;
     if(msgs.childElementCount)return;
     const w=curWeek();
     const how=canChatHere()?"Ask me any doubt right here.":"Type your doubt and I'll open it in **your own Claude** (sign in there with your account), already filled in with your week and project. No API key needed.";
-    const b=bubble("bot",md(`Hi${S.name?" "+S.name:""}! I'm your AI tutor. ${locked()?`You're on **Week ${w+1}: ${W[w].title}**.`:"Lock your start date at the top so I know which week you're on."} ${how}`));
+    const b=bubble("bot",md(`Hi${S.name?" "+S.name:""}! I'm your AI tutor. ${locked()?`You're on **Week ${w+1}: ${W[w].title}**.`:"Join your batch at the top so I know which week you're on."} ${how}`));
     const c=document.createElement("div");c.className="chips";
     [`Explain Week ${w+1} in simple words`,"Help me plan today's 2 hours","Give me a hint for this week's project","I'm stuck on an error"].forEach(q=>{const x=document.createElement("button");x.type="button";x.textContent=q;x.onclick=()=>{c.remove();ask(q)};c.appendChild(x)});
     b.appendChild(c);
